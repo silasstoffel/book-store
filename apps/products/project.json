@@ -1,7 +1,7 @@
 {
-  "name": "book-store",
+  "name": "products",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/book-store/src",
+  "sourceRoot": "apps/products/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,12 +10,12 @@
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
-        "outputPath": "dist/apps/book-store",
+        "outputPath": "dist/apps/products",
         "format": ["cjs"],
         "bundle": false,
-        "main": "apps/book-store/src/main.ts",
-        "tsConfig": "apps/book-store/tsconfig.app.json",
-        "assets": ["apps/book-store/src/assets"],
+        "main": "apps/products/src/main.ts",
+        "tsConfig": "apps/products/tsconfig.app.json",
+        "assets": ["apps/products/src/assets"],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -40,14 +40,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "book-store:build"
+        "buildTarget": "products:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "book-store:build:development"
+          "buildTarget": "products:build:development"
         },
         "production": {
-          "buildTarget": "book-store:build:production"
+          "buildTarget": "products:build:production"
         }
       }
     },
@@ -55,14 +55,14 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/book-store/**/*.ts"]
+        "lintFilePatterns": ["apps/products/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/book-store/jest.config.ts",
+        "jestConfig": "apps/products/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -73,5 +73,8 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "scope:products",
+    "type:app"
+  ]
 }
