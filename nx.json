@@ -56,5 +56,9 @@
       "!{projectRoot}/eslint.config.js"
     ],
     "sharedGlobals": []
+  },
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "packages"
   }
 }
