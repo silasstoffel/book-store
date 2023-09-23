@@ -1,1 +1,1 @@
-export { serverlessSidecar } from './serverless-sidecar';
+export * from './handler-path';

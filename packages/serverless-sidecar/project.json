@@ -1,0 +1,47 @@
+{
+  "name": "serverless-sidecar",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/serverless-sidecar/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/serverless-sidecar",
+        "tsConfig": "packages/serverless-sidecar/tsconfig.lib.json",
+        "packageJson": "packages/serverless-sidecar/package.json",
+        "main": "packages/serverless-sidecar/src/index.ts",
+        "assets": ["packages/serverless-sidecar/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/serverless-sidecar/**/*.ts",
+          "packages/serverless-sidecar/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/serverless-sidecar/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": [
+    "scope:serverless-sidecar",
+    "type:packages"
+  ]
+}
