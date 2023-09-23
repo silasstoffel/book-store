@@ -1,0 +1,50 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - '.github/**'
+
+jobs:
+   deploy:
+      runs-on: ubuntu-latest
+
+      strategy:
+        matrix:
+          app:
+            - products
+
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+
+        - name: Check for changes in ${{ matrix.app }}
+          run: |
+              CHANGED_FILES=$(git diff --name-only HEAD^..HEAD)
+              if [[ $CHANGED_FILES == *"apps/${{ matrix.app }}"* ]]; then
+                echo "Changes detected in ./apps/${{ matrix.app }}, deploying..."
+              else
+                echo "No changes in ./apps/${{ matrix.app }}, skipping deployment."
+                exit 0
+              fi
+
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 18
+            cache: 'npm'
+
+        - name: Install Serverless Framework
+          run: npm install -g serverless
+
+        - name: AWS Deploy
+          run: |
+            npm ci --production --legacy-peer-deps
+            serverless deploy
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

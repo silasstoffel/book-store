@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/products",
         "format": ["cjs"],
         "bundle": false,
-        "main": "apps/products/src/main.ts",
+        "main": "apps/products/serverless.ts",
         "tsConfig": "apps/products/tsconfig.app.json",
         "assets": ["apps/products/src/assets"],
         "generatePackageJson": true,
