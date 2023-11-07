@@ -15,7 +15,7 @@ export function serverlessSidecar(config: AWS): AWS {
 
     sls.package = { individually: true }
 
-    sls.plugins = ['serverless-esbuild']
+    sls.plugins = ['serverless-esbuild', 'serverless-offline']
 
     if (!sls.custom) {
       sls.custom = {}
