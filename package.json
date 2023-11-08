@@ -8,7 +8,8 @@
     "@middy/core": "^4.6.5",
     "tsconfig-paths": "^4.2.0",
     "tslib": "^2.3.0",
-    "ulid": "^2.3.0"
+    "ulid": "^2.3.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@nx/esbuild": "16.9.0",
