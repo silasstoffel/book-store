@@ -71,6 +71,14 @@
           "codeCoverage": true
         }
       }
+    },
+    "deploy":{
+        "executor": "@nx/run:commands",
+        "options": {
+            "cwd": "apps/products",
+            "color": true,
+            "command": "sls deploy --verbose"
+        }
     }
   },
   "tags": [
