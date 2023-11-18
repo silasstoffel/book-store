@@ -2,8 +2,8 @@
     "name": "logger",
     "version": "0.0.1",
     "dependencies": {
-    "@aws-lambda-powertools/logger": "^1.16.0"
-  },
+        "@aws-lambda-powertools/logger": "^1.16.0"
+    },
     "type": "commonjs",
     "main": "./index.cjs"
 }
