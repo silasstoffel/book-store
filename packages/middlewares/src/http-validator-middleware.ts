@@ -16,13 +16,13 @@ interface ZodError {
     errors: ZodErrorDetails[]
 }
 
-
 export const HttpValidatorMiddleware = (schema: z.AnyZodObject) => {
     const  before = async (handler: Event) => {
         const { event: { body } } = handler;
         try {
             const parsedBody = JSON.parse(body || '{}');
             schema.parse(parsedBody);
+            return undefined;
         } catch (error) {
             const details = error as ZodError;
             const errors = details.errors.map((err) => {

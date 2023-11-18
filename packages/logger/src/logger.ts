@@ -42,8 +42,9 @@ const defaults: LoggerParams = {
 
 export class Logger implements ILogger {
     private readonly logger: AwsLogger;
+    private readonly params: LoggerParams;
 
-    constructor(private readonly params?: LoggerParams) {
+    constructor(params?: LoggerParams) {
         this.params = { ...defaults, ...params };
         this.logger = new AwsLogger({ ...this.params });
     }
