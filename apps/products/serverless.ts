@@ -9,7 +9,7 @@ const serverless: AWS = {
         memorySize: 128,
         environment: {
             SERVICE_NAME: 'bookstore-products',
-            LOG_LEVEL: 'ALL',
+            LOG_LEVEL: 'DEBUG',
         }
     },
     functions

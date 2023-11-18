@@ -1,2 +1,2 @@
-export * from './logger';
-export { Logger, LoggerLevel, LoggerEnvironment } from './logger';
+export { ILogger } from './ilogger';
+export { Logger, Level, Environment } from './logger';
