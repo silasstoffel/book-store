@@ -5,6 +5,7 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@aws-lambda-powertools/logger": "^1.16.0",
     "@middy/core": "^4.6.5",
     "tsconfig-paths": "^4.2.0",
     "tslib": "^2.3.0",
