@@ -1,12 +1,14 @@
-import { APIGatewayEvent } from "aws-lambda";
+import { APIGatewayEvent, Context } from "aws-lambda";
 import { ulid } from 'ulid'
 import middy from '@middy/core'
 import { HttpValidatorMiddleware } from '@packages/middlewares'
 import { Logger } from '@packages/logger'
 import { createProductSchema } from './schema'
 
-const handler = async (event: APIGatewayEvent) => {
-    const logger = Logger.build()
+
+
+const handler = async (event: APIGatewayEvent, context: Context) => {
+    const logger = Logger.build({ context})
 
     const body = JSON.parse(event.body || '{}')
     const parsedBody = createProductSchema.parse(body)

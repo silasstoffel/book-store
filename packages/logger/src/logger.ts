@@ -19,13 +19,15 @@ export enum Environment {
     STAGING = 'staging',
 }
 
-interface LoggerParams {
+interface BaseLoggerParams {
     serviceName?: string;
     environment?: Environment;
-    level: Level;
+    context?: any
 }
 
-type BuildLoggerParams = LoggerParams & { level?: Level };
+interface LoggerParams extends BaseLoggerParams { level: Level }
+
+interface BuildLoggerParams extends BaseLoggerParams { level?: Level }
 
 const levelBuilder = (level?: string): number => {
     if (!level) {
@@ -49,6 +51,7 @@ export class Logger implements ILogger {
         const persistentLogAttributes = {
             service: this.params.serviceName,
             environment: this.params.environment,
+            context: this.params?.context,
         }
         this.logger = new AwsLogger({ ...this.params, persistentLogAttributes });
     }
