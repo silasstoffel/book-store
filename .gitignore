@@ -4,6 +4,7 @@
 dist
 tmp
 /out-tsc
+.esbuild
 
 # dependencies
 node_modules

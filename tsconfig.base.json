@@ -19,6 +19,8 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
+            "@packages/logger": ["packages/logger/src/index.ts"],
+            "@packages/middlewares": ["packages/middlewares/src/index.ts"],
             "@packages/serverless-sidecar": [
                 "packages/serverless-sidecar/src/index.ts"
             ],
