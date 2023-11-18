@@ -15,6 +15,7 @@ const handler = async (event: APIGatewayEvent) => {
     logger.warn('warn logger without data')
     logger.error('error logger', Error('Fake error'), parsedBody)
     logger.debug('debug logger', { body, additional: 'additional info'})
+    logger.debug('environment', process.env)
 
     return {
         statusCode: 201,
