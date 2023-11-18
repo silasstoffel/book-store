@@ -10,7 +10,7 @@ const handler = async (event: APIGatewayEvent) => {
     logger.info('info logger', event)
     logger.warn('warn logger', event)
     logger.error('error logger', Error('Fake error'), event)
-    logger.warn('debug logger', event)
+    logger.debug('debug logger', event)
 
     return {
         statusCode: 201,
