@@ -57,25 +57,25 @@ export class Logger implements ILogger {
     }
 
     public info(message: string, data?: any): void {
-        if (this.params.level >= Level.INFO) {
+        if (this.params.level <= Level.INFO) {
             this.logger.info(message, data);
         }
     }
 
     public warn(message: string, data?: any): void {
-        if (this.params.level >= Level.WARN) {
+        if (this.params.level <= Level.WARN) {
             this.logger.warn(message, data);
         }
     }
 
     public debug(message: string, data?: any): void {
-        if (this.params.level >= Level.DEBUG) {
+        if (this.params.level <= Level.DEBUG) {
             this.logger.debug(message, data);
         }
     }
 
     public error(message: string, error?: Error, data?: any): void {
-        if (this.params.level >= Level.ERROR) {
+        if (this.params.level <= Level.ERROR) {
             this.logger.error(message, { error, ...data});
         }
     }
