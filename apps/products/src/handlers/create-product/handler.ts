@@ -7,10 +7,14 @@ import { createProductSchema } from './schema'
 
 const handler = async (event: APIGatewayEvent) => {
     const logger = Logger.build()
-    logger.info('info logger', event)
-    logger.warn('warn logger', event)
-    logger.error('error logger', Error('Fake error'), event)
-    logger.debug('debug logger', event)
+
+    const body = JSON.parse(event.body || '{}')
+    const parsedBody = createProductSchema.parse(body)
+
+    logger.info('info logger', { body, parsedBody })
+    logger.warn('warn logger without data')
+    logger.error('error logger', Error('Fake error'), parsedBody)
+    logger.debug('debug logger', { body, additional: 'additional info'})
 
     return {
         statusCode: 201,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Logger as AwsLogger } from '@aws-lambda-powertools/logger';
 import { ILogger } from './ilogger';
 
@@ -46,45 +47,38 @@ export class Logger implements ILogger {
 
     constructor(params?: LoggerParams) {
         this.params = { ...defaults, ...params };
-        this.logger = new AwsLogger({ ...this.params });
+        const persistentLogAttributes = {
+            service: this.params.serviceName,
+            environment: this.params.environment,
+        }
+        this.logger = new AwsLogger({ ...this.params, persistentLogAttributes });
     }
 
-    public info(message: string, data?: object): void {
+    public info(message: string, data?: any): void {
         if (this.params?.levels?.includes(LoggerLevel.ALL) || this.params?.levels?.includes(LoggerLevel.INFO)) {
-            const persistentLogAttributes = this.buildPersistentLogAttributes();
-            this.logger.info(message, {...persistentLogAttributes, ...data});
+            this.logger.info(message, data);
         }
     }
 
-    public warn(message: string, data?: object): void {
+    public warn(message: string, data?: any): void {
         if (this.params?.levels?.includes(LoggerLevel.ALL) || this.params?.levels?.includes(LoggerLevel.WARN)) {
-            const persistentLogAttributes = this.buildPersistentLogAttributes();
-            this.logger.warn(message, {...persistentLogAttributes, ...data});
+            this.logger.warn(message, data);
         }
     }
 
-    public debug(message: string, data?: object): void {
+    public debug(message: string, data?: any): void {
         if (this.params?.levels?.includes(LoggerLevel.ALL) || this.params?.levels?.includes(LoggerLevel.DEBUG)) {
-            const persistentLogAttributes = this.buildPersistentLogAttributes();
-            this.logger.debug(message, {...persistentLogAttributes, ...data});
+            this.logger.debug(message, data);
         }
     }
 
-    public error(message: string, error?: Error, data?: object): void {
+    public error(message: string, error?: Error, data?: any): void {
         if (this.params?.levels?.includes(LoggerLevel.ALL) || this.params?.levels?.includes(LoggerLevel.ERROR)) {
-            const persistentLogAttributes = this.buildPersistentLogAttributes();
-            this.logger.error(message, { error, ...persistentLogAttributes, ...data});
+            this.logger.error(message, { error, ...data});
         }
     }
 
     public static build(params?: LoggerParams): Logger {
         return new Logger(params);
-    }
-
-    private buildPersistentLogAttributes(): object {
-        return {
-            service: this.params.serviceName,
-            environment: this.params.environment,
-        }
     }
 }
