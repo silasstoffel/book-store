@@ -1,5 +1,5 @@
 export class SystemManager {
-    getStatements() {
+    getRoles() {
         return [
             {
                 Effect: 'Allow',

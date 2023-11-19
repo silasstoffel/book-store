@@ -25,7 +25,7 @@ export function serverlessSidecar(config: AWS): AWS {
         }
     }
 
-    config.provider.iam.role["statements"].push(systemManager.getStatements())
+    config.provider.iam.role["statements"].push(...systemManager.getRoles())
 
     sls.package = { individually: true }
 
