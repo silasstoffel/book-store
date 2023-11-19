@@ -12,6 +12,7 @@ export function serverlessSidecar(config: AWS): AWS {
     sls.provider.stage = 'dev';
     sls.provider.tracing = { lambda: false };
     sls.provider.logRetentionInDays = 1
+    sls.provider.environment.LOG_LEVEL = 'DEBUG'
 
     sls.package = { individually: true }
 
