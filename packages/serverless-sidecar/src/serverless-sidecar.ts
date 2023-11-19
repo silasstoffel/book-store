@@ -1,4 +1,7 @@
 import type { AWS } from '@serverless/typescript'
+import { SystemManager } from './infra/system-manager';
+
+const systemManager = new SystemManager()
 
 export function serverlessSidecar(config: AWS): AWS {
     const sls: AWS = config;
@@ -13,6 +16,16 @@ export function serverlessSidecar(config: AWS): AWS {
     sls.provider.tracing = { lambda: false };
     sls.provider.logRetentionInDays = 1
     sls.provider.environment.LOG_LEVEL = 'DEBUG'
+    sls.provider.environment.MONGO_URI = '${ssm:/book-store/mongo/connection-string}'
+
+    if (!sls.provider.iam?.role["statements"]) {
+        sls.provider = {
+          ...config.provider,
+          iam: {role: { statements: [] } },
+        }
+    }
+
+    config.provider.iam.role["statements"].push(systemManager.getStatements())
 
     sls.package = { individually: true }
 
