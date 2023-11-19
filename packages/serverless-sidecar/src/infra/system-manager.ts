@@ -9,7 +9,7 @@ export class SystemManager {
                     'ssm:GetParametersByPath',
                 ],
                 Resource: [
-                    'arn:aws:ssm:*:*:parameter/book-store/*',
+                    'arn:aws:ssm:${aws:region}:${aws:accountId}:parameter/book-store/*',
                 ],
             },
         ];
