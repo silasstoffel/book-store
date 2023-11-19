@@ -20,7 +20,7 @@ export const MongooseConnectionMiddleware = () => {
     };
 
     const onError = async () => {
-        logger.info('Error to connect MongoDb');
+        logger.error('Error to connect MongoDb');
         return {
             statusCode: 500,
             body: JSON.stringify({
