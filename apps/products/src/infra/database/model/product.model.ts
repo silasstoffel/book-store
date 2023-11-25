@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { model, Schema } from 'mongoose';
 import { mongooseSidecar } from '@packages/mongoose-sidecar';
 import { Product } from '../../../domain/product.entity';
 import { ProductCategory } from '../../../domain/enum';
@@ -17,4 +17,4 @@ const productSchema = mongooseSidecar(
     })
 );
 
-export default model<Product>('products', productSchema);
+export default mongoose.connection.model<Product>('products', productSchema);

@@ -1,5 +1,4 @@
 import { APIGatewayEvent, Context } from "aws-lambda";
-import { ulid } from 'ulid'
 import middy from '@middy/core'
 import { HttpValidatorMiddleware, MongooseConnectionMiddleware } from '@packages/middlewares'
 import { Logger } from '@packages/logger'
