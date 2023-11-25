@@ -1,4 +1,5 @@
-import mongoose, { model, Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
 import { mongooseSidecar } from '@packages/mongoose-sidecar';
 import { Product } from '../../../domain/product.entity';
 import { ProductCategory } from '../../../domain/enum';
@@ -17,4 +18,4 @@ const productSchema = mongooseSidecar(
     })
 );
 
-export default mongoose.connection.model<Product>('products', productSchema);
+export default MongooseConnectionManager.getConnection().model<Product>('products', productSchema);

@@ -1,6 +1,5 @@
-import mongoose from 'mongoose'
 import { Logger } from '@packages/logger'
-
+import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
 interface Handler {
     context: {
         callbackWaitsForEmptyEventLoop: boolean
@@ -14,17 +13,12 @@ export const MongooseConnectionMiddleware = () => {
     const before = async (handler: Handler) => {
         logger.info('Connecting to MongoDB');
         handler.context.callbackWaitsForEmptyEventLoop = false
-        await mongoose.connect(String(MONGO_URI), {
-            serverSelectionTimeoutMS: 3000
-        });
+        await MongooseConnectionManager.connect(String(MONGO_URI));
         logger.info('Connected to MongoDB');
         return undefined;
     };
 
     const after = async () => {
-        logger.info('Closing MongoDB connection');
-        await mongoose.connection.close();
-        logger.info('Closed MongoDB connection');
         return undefined;
     };
 
