@@ -7,10 +7,16 @@ import { ProductRepository } from "../../database/repository/product.repository"
 import { CreateProductUseCase } from "../../../use-cases/create/create-product.use-case";
 import { CreateProductInput } from "../../../use-cases/create/create-product.input";
 import getProductModel from "../../database/model/product.model";
+import mongoose, { Connection } from 'mongoose';
 
 const handler = async (event: APIGatewayEvent, context: Context) => {
     const logger = Logger.build({ context });
     logger.info('Creating product');
+    const activeConnection: Connection = mongoose.connection
+    logger.info('Mongoose connection', {
+        connectionState: mongoose.connection.readyState,
+        activeConnection
+    })
 
     const payload = createProductSchema.parse(event.body)
     const useCase = new CreateProductUseCase(
