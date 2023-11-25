@@ -9,6 +9,3 @@ export const createProductSchema = z.object({
     quantity: z.number().gte(0.01).positive(),
     category: z.nativeEnum(ProductCategory).optional()
 })
-
-
-export type CreateProductSchema = z.infer<typeof createProductSchema>;

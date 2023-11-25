@@ -1,7 +1,10 @@
 {
     "name": "@packages/mongoose-sidecar",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+    "mongoose": "^8.0.1",
+    "ulid": "^2.3.0"
+  },
     "type": "commonjs",
     "main": "./index.cjs"
 }
