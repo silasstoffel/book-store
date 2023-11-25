@@ -6,21 +6,34 @@ import { createProductSchema } from './schema'
 import { ProductRepository } from "../../database/repository/product.repository";
 import { CreateProductUseCase } from "../../../use-cases/create/create-product.use-case";
 import { CreateProductInput } from "../../../use-cases/create/create-product.input";
-import getProductModel from "../../database/model/product.model";
-import mongoose, { Connection } from 'mongoose';
+
+import mongoose, { Connection, Schema } from 'mongoose';
+import { ProductCategory } from "../../../domain/enum";
+import { mongooseSidecar } from "@packages/mongoose-sidecar";
+import { Product } from "../../../domain/product.entity";
+
+const productSchema = mongooseSidecar(
+    new Schema<Product>({
+        name: { type: String, required: true },
+        description: { type: String, required: true },
+        price: { type: Number, required: true },
+        quantity: { type: Number, required: true },
+        category: { type: String, enum: ProductCategory, required: false },
+    }, {
+        autoIndex: true,
+        timestamps: true,
+        _id: false,
+    })
+);
 
 const handler = async (event: APIGatewayEvent, context: Context) => {
     const logger = Logger.build({ context });
     logger.info('Creating product');
     const activeConnection: Connection = mongoose.connection
-    logger.info('Mongoose connection', {
-        connectionState: mongoose.connection.readyState,
-        activeConnection
-    })
-
+    const productModel = activeConnection.model<Product>('products', productSchema)
     const payload = createProductSchema.parse(event.body)
     const useCase = new CreateProductUseCase(
-        new ProductRepository(getProductModel())
+        new ProductRepository(productModel)
     )
     const product = await useCase.execute(payload as CreateProductInput)
 
