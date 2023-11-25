@@ -1,5 +1,6 @@
 import { Logger } from '@packages/logger'
 import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
+import { Error } from 'mongoose';
 interface Handler {
     context: {
         callbackWaitsForEmptyEventLoop: boolean
@@ -11,10 +12,19 @@ export const MongooseConnectionMiddleware = () => {
     const { MONGO_URI } = process.env;
 
     const before = async (handler: Handler) => {
-        logger.info('Connecting to MongoDB');
+        logger.info('Trying to connecting on MongoDb');
         handler.context.callbackWaitsForEmptyEventLoop = false
-        await MongooseConnectionManager.connect(String(MONGO_URI));
-        logger.info('Connected to MongoDB');
+        try {
+            await MongooseConnectionManager.connect(String(MONGO_URI));
+            logger.info('Connected to MongoDB');
+        } catch (error) {
+            logger.error(
+                'Error to connect MongoDb',
+                error as Error,
+                { source: 'MongooseConnectionMiddleware' }
+            );
+            throw error;
+        }
         return undefined;
     };
 
