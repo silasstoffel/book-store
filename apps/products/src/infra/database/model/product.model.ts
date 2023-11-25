@@ -3,6 +3,7 @@ import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
 import { mongooseSidecar } from '@packages/mongoose-sidecar';
 import { Product } from '../../../domain/product.entity';
 import { ProductCategory } from '../../../domain/enum';
+import mongoose, { Connection } from 'mongoose';
 
 const productSchema = mongooseSidecar(
     new Schema<Product>({
@@ -19,8 +20,7 @@ const productSchema = mongooseSidecar(
 );
 
 export default function getProductModel(): Model<Product> {
-    return MongooseConnectionManager
-    .getConnection()
+    return mongoose.connection
     .model<Product>('products', productSchema)
 }
 
