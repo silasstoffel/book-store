@@ -1,8 +1,9 @@
-import { Schema } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
 import { mongooseSidecar } from '@packages/mongoose-sidecar';
 import { Product } from '../../../domain/product.entity';
 import { ProductCategory } from '../../../domain/enum';
+import { get } from 'http';
 
 const productSchema = mongooseSidecar(
     new Schema<Product>({
@@ -18,4 +19,9 @@ const productSchema = mongooseSidecar(
     })
 );
 
-export default MongooseConnectionManager.getConnection().model<Product>('products', productSchema);
+export default function getProductModel(): Model<Product> {
+    return MongooseConnectionManager
+    .getConnection()
+    .model<Product>('products', productSchema)
+}
+
