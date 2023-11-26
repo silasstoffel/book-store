@@ -12,3 +12,10 @@ export class BaseException extends Error {
         this.name = 'BaseException';
     }
 }
+
+export class UnknownException extends BaseException {
+    constructor() {
+        super('Unknown error.', 'UNKNOWN_ERROR', { httpStatusCode: 500})
+        this.name = 'UnknownException';
+    }
+}
