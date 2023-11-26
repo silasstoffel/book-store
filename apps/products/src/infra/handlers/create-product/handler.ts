@@ -23,8 +23,8 @@ const productSchema = mongooseSidecar(
 );
 
 const handler = async (event: APIGatewayEvent, context: Context) => {
-    const logger = Logger.build({ context });
     context.callbackWaitsForEmptyEventLoop = false
+    const logger = Logger.build({ context });
 
     const cnx = mongoose.createConnection(String(process.env.MONGO_URI), {
         serverSelectionTimeoutMS: 3000,
