@@ -41,5 +41,5 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
 };
 
 export const main = middy(handler)
-    .use(MongooseConnectionMiddleware())
+    //.use(MongooseConnectionMiddleware())
     .use(HttpValidatorMiddleware(createProductSchema))
