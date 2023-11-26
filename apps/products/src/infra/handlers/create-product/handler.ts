@@ -3,11 +3,7 @@ import middy from '@middy/core'
 import { HttpValidatorMiddleware, MongooseConnectionMiddleware } from '@packages/middlewares'
 import { Logger } from '@packages/logger'
 import { createProductSchema } from './schema'
-import { ProductRepository } from "../../database/repository/product.repository";
-import { CreateProductUseCase } from "../../../use-cases/create/create-product.use-case";
-import { CreateProductInput } from "../../../use-cases/create/create-product.input";
-
-import mongoose, { Connection, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { ProductCategory } from "../../../domain/enum";
 import { mongooseSidecar } from "@packages/mongoose-sidecar";
 import { Product } from "../../../domain/product.entity";
@@ -28,22 +24,17 @@ const productSchema = mongooseSidecar(
 
 const handler = async (event: APIGatewayEvent, context: Context) => {
     const logger = Logger.build({ context });
+    context.callbackWaitsForEmptyEventLoop = false
 
     const cnx = mongoose.createConnection(String(process.env.MONGO_URI), {
         serverSelectionTimeoutMS: 3000,
     });
 
     await cnx.asPromise();
-
     logger.info('Creating product');
     const productModel = cnx.model<Product>('products', productSchema)
     const payload = createProductSchema.parse(event.body)
-    const useCase = new CreateProductUseCase(
-        new ProductRepository(productModel)
-    )
-    //const product = await useCase.execute(payload as CreateProductInput)
     const product = await productModel.create(payload)
-
     logger.info('Product created', { product: product.id })
 
     return { statusCode: 201, body: JSON.stringify(product) }
