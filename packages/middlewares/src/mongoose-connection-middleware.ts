@@ -1,6 +1,5 @@
 import { Logger } from '@packages/logger'
-//import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
-import mongoose, { Error } from 'mongoose';
+import mongoose, { Error } from 'mongoose'
 interface Handler {
     context: {
         callbackWaitsForEmptyEventLoop: boolean
@@ -14,7 +13,7 @@ export const MongooseConnectionMiddleware = () => {
     const { MONGO_URI } = process.env;
 
     const before = async (handler: Handler) => {
-        logger.info('Trying to connecting on MongoDb');
+        logger.info('Trying to creating a new connection or get a existing connection');
         handler.context.callbackWaitsForEmptyEventLoop = false
         try {
             if (!connection) {
@@ -48,7 +47,7 @@ export const MongooseConnectionMiddleware = () => {
             statusCode: 500,
             body: JSON.stringify({
                 code: 'INTERNAL_SERVER_ERROR',
-                message: 'Something went wrong.',
+                message: 'Database connection failure.',
             }),
         }
     };
