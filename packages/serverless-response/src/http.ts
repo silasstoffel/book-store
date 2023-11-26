@@ -1,23 +1,25 @@
-
-export function http(data: unknown, code = 200) {
-    return {
-        statusCode: code,
-        body: JSON.stringify(data),
-    };
+interface ResponseSchema {
+    statusCode: number;
+    body: string;
 }
 
-export function httpOk(data: unknown) {
+export function http(data?: unknown | null, code = 200): ResponseSchema {
+    const body = data ? JSON.stringify(data) : '';
+    return { statusCode: code, body };
+}
+
+export function httpOk(data?: unknown | null): ResponseSchema {
     return http(data, 200);
 }
 
-export function httpCreated(data: unknown) {
+export function httpCreated(data?: unknown | null): ResponseSchema {
     return http(data, 200);
 }
 
-export function httpNotFound(data: unknown) {
+export function httpNotFound(data?: unknown | null): ResponseSchema {
     return http(data, 404);
 }
 
-export function httpEmpty() {
-    return http({}, 204);
+export function httpEmpty(): ResponseSchema {
+    return http(null, 204);
 }

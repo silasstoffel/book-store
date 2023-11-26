@@ -2,6 +2,7 @@ import { APIGatewayEvent, Context } from "aws-lambda";
 import middy from '@middy/core'
 import { HttpValidatorMiddleware, MongooseConnectionMiddleware } from '@packages/middlewares'
 import { Logger } from '@packages/logger'
+import { httpCreated } from '@packages/serverless-response'
 import { createProductSchema } from './schema'
 import getProductModel from '../../database/model/product.model';
 import { ProductRepository } from '../../database/repository/product.repository';
@@ -17,7 +18,7 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     const product = await useCase.execute(payload as CreateProductInput)
     logger.info('Product created', { product: product.id })
 
-    return { statusCode: 201, body: JSON.stringify(product) }
+    return httpCreated(product);
 };
 
 export const main = middy(handler)
