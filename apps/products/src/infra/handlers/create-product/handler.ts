@@ -35,7 +35,8 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     const useCase = new CreateProductUseCase(
         new ProductRepository(productModel)
     )
-    const product = await useCase.execute(payload as CreateProductInput)
+    //const product = await useCase.execute(payload as CreateProductInput)
+    const product = await productModel.create(payload)
 
     logger.info('Product created', { product: product.id })
 
