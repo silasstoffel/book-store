@@ -15,9 +15,9 @@ export const MongooseConnectionMiddleware = () => {
         logger.info('Trying to connecting on MongoDb');
         handler.context.callbackWaitsForEmptyEventLoop = false
         try {
-            await mongoose.connect(String(MONGO_URI), {
+            await mongoose.createConnection(String(MONGO_URI), {
                 serverSelectionTimeoutMS: 3000,
-            });
+            }).asPromise();
             logger.info('Connected to MongoDB');
         } catch (error) {
             logger.error(
