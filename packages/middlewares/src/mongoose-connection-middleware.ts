@@ -41,16 +41,5 @@ export const MongooseConnectionMiddleware = () => {
         return undefined;
     };
 
-    const onError = async () => {
-        logger.error('Error to connect MongoDb');
-        return {
-            statusCode: 500,
-            body: JSON.stringify({
-                code: 'INTERNAL_SERVER_ERROR',
-                message: 'Database connection failure.',
-            }),
-        }
-    };
-
-    return { before, after, onError };
+    return { before, after, onError: undefined };
 }
