@@ -16,8 +16,8 @@ const productSchema = mongooseSidecar(
         quantity: { type: Number, required: true },
         category: { type: String, enum: ProductCategory, required: false },
     }, {
+        autoIndex: true,
         timestamps: true,
-        _id: false,
     })
 );
 
