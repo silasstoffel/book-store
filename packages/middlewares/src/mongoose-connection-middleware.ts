@@ -19,10 +19,11 @@ export const MongooseConnectionMiddleware = () => {
         try {
             if (!connection) {
                 logger.info('Creating a new connection');
-                connection = mongoose.createConnection(String(MONGO_URI), {
+                await mongoose.connect(String(MONGO_URI), {
                     serverSelectionTimeoutMS: 3000,
+
                 });
-                await connection.asPromise()
+                connection = mongoose.connection
                 logger.info('Connected to MongoDB');
             } else {
                 logger.info('Using existing connection.');
