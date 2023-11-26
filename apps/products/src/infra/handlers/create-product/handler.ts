@@ -28,9 +28,15 @@ const productSchema = mongooseSidecar(
 
 const handler = async (event: APIGatewayEvent, context: Context) => {
     const logger = Logger.build({ context });
+
+    const cnx = mongoose.createConnection(String(process.env.MONGO_URI), {
+        serverSelectionTimeoutMS: 3000,
+    });
+
+    await cnx.asPromise();
+
     logger.info('Creating product');
-    const activeConnection: Connection = mongoose.connection
-    const productModel = activeConnection.model<Product>('products', productSchema)
+    const productModel = cnx.model<Product>('products', productSchema)
     const payload = createProductSchema.parse(event.body)
     const useCase = new CreateProductUseCase(
         new ProductRepository(productModel)
