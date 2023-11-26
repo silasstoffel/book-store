@@ -24,6 +24,9 @@
             "@packages/mongoose-sidecar": [
                 "packages/mongoose-sidecar/src/index.ts"
             ],
+            "@packages/serverless-response": [
+                "packages/serverless-response/src/index.ts"
+            ],
             "@packages/serverless-sidecar": [
                 "packages/serverless-sidecar/src/index.ts"
             ],

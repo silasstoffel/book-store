@@ -1,0 +1,45 @@
+{
+    "name": "serverless-response",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/serverless-response/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/esbuild:esbuild",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/packages/serverless-response",
+                "main": "packages/serverless-response/src/index.ts",
+                "tsConfig": "packages/serverless-response/tsconfig.lib.json",
+                "assets": ["packages/serverless-response/*.md"],
+                "generatePackageJson": true,
+                "format": ["cjs"]
+            }
+        },
+        "lint": {
+            "executor": "@nx/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "packages/serverless-response/**/*.ts",
+                    "packages/serverless-response/package.json"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/serverless-response/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
+        }
+    },
+    "tags": []
+}
