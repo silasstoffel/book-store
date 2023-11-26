@@ -33,7 +33,7 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     await cnx.asPromise();
     logger.info('Creating product');
     const productModel = cnx.model<Product>('products', productSchema)
-    const payload = createProductSchema.parse(event.body)
+    const payload = createProductSchema.parse(JSON.parse(event.body) || {})
     const product = await productModel.create(payload)
     logger.info('Product created', { product: product.id })
 
