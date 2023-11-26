@@ -21,7 +21,6 @@ export const MongooseConnectionMiddleware = () => {
                 logger.info('Creating a new connection');
                 await mongoose.connect(String(MONGO_URI), {
                     serverSelectionTimeoutMS: 3000,
-
                 });
                 connection = mongoose.connection
                 logger.info('Connected to MongoDB');

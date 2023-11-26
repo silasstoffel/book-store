@@ -1,9 +1,8 @@
 import { Model, Schema } from 'mongoose';
-import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
 import { mongooseSidecar } from '@packages/mongoose-sidecar';
 import { Product } from '../../../domain/product.entity';
 import { ProductCategory } from '../../../domain/enum';
-import mongoose, { Connection } from 'mongoose';
+import mongoose from 'mongoose';
 
 const productSchema = mongooseSidecar(
     new Schema<Product>({
@@ -15,12 +14,9 @@ const productSchema = mongooseSidecar(
     }, {
         autoIndex: true,
         timestamps: true,
-        _id: false,
     })
 );
 
 export default function getProductModel(): Model<Product> {
-    return mongoose.connection
-    .model<Product>('products', productSchema)
+    return mongoose.model<Product>('products', productSchema)
 }
-
