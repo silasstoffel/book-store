@@ -22,16 +22,9 @@ const productSchema = mongooseSidecar(
 );
 
 const handler = async (event: APIGatewayEvent, context: Context) => {
-    context.callbackWaitsForEmptyEventLoop = false
     const logger = Logger.build({ context });
-
-    const cnx = mongoose.createConnection(String(process.env.MONGO_URI), {
-        serverSelectionTimeoutMS: 30000,
-    });
-
-    await cnx.asPromise();
     logger.info('Creating product');
-    const productModel = cnx.model<Product>('products', productSchema)
+    const productModel = mongoose.model<Product>('products', productSchema)
     const payload = createProductSchema.parse(JSON.parse(event.body) || {})
     const product = await productModel.create(payload)
     logger.info('Product created', { product: product.id })
@@ -40,5 +33,5 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
 };
 
 export const main = middy(handler)
-    //.use(MongooseConnectionMiddleware())
+    .use(MongooseConnectionMiddleware())
     .use(HttpValidatorMiddleware(createProductSchema))

@@ -1,11 +1,13 @@
 import { Logger } from '@packages/logger'
-import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
+//import { MongooseConnectionManager } from '@packages/mongoose-sidecar';
 import mongoose, { Error } from 'mongoose';
 interface Handler {
     context: {
         callbackWaitsForEmptyEventLoop: boolean
     }
 }
+
+let connection: mongoose.Connection | null = null;
 
 export const MongooseConnectionMiddleware = () => {
     const logger = Logger.build();
@@ -15,10 +17,16 @@ export const MongooseConnectionMiddleware = () => {
         logger.info('Trying to connecting on MongoDb');
         handler.context.callbackWaitsForEmptyEventLoop = false
         try {
-            await mongoose.createConnection(String(MONGO_URI), {
-                serverSelectionTimeoutMS: 3000,
-            }).asPromise();
-            logger.info('Connected to MongoDB');
+            if (!connection) {
+                logger.info('Creating a new connection');
+                connection = mongoose.createConnection(String(MONGO_URI), {
+                    serverSelectionTimeoutMS: 3000,
+                });
+                await connection.asPromise()
+                logger.info('Connected to MongoDB');
+            } else {
+                logger.info('Using existing connection.');
+            }
         } catch (error) {
             logger.error(
                 'Error to connect MongoDb.',
