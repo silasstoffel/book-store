@@ -19,6 +19,7 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
+            "@package/exceptions": ["packages/exceptions/src/index.ts"],
             "@packages/logger": ["packages/logger/src/index.ts"],
             "@packages/middlewares": ["packages/middlewares/src/index.ts"],
             "@packages/mongoose-sidecar": [

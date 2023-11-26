@@ -10,3 +10,8 @@ export enum ProductCategory {
     COOKBOOK = 'Cookbook',
     CHILDREN = 'Children',
 }
+
+export enum ExceptionCode {
+    PRODUCT_NAME_ALREADY_EXISTS = 'PRODUCT_NAME_ALREADY_EXISTS',
+    PRODUCT_NOT_FOUND = 'PRODUCT_NOT_FOUND',
+}
