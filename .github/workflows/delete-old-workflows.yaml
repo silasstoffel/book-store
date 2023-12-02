@@ -1,0 +1,26 @@
+name: Delete Old Workflows
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  delete_old_workflows:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Delete old workflows
+      run: |
+        for f in $(find .github/workflows -type f -name '*.yml'); do
+          creation_time=$(git log --format=%at -n 1 -- $f)
+          current_time=$(date +%s)
+          age_days=$(( (current_time - creation_time) / 86400 ))
+
+          if [ "$age_days" -gt 10 ]; then
+            rm $f
+            echo "Deleted $f"
+          fi
+        done
