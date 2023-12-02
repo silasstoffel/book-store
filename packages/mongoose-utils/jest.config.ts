@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-    displayName: 'mongoose-sidecar',
+    displayName: 'mongoose-utils',
     preset: '../../jest.preset.js',
     testEnvironment: 'node',
     transform: {
@@ -10,5 +10,5 @@ export default {
         ],
     },
     moduleFileExtensions: ['ts', 'js', 'html'],
-    coverageDirectory: '../../coverage/packages/mongoose-sidecar',
+    coverageDirectory: '../../coverage/packages/mongoose-utils',
 };

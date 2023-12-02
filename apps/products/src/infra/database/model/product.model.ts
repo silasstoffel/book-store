@@ -1,5 +1,5 @@
 import { Model, Schema } from 'mongoose';
-import { mongooseSidecar } from '@packages/mongoose-sidecar';
+import { mongooseSidecar } from '@packages/mongoose-utils';
 import { Product } from '../../../domain/product.entity';
 import { ProductCategory } from '../../../domain/enum';
 import mongoose from 'mongoose';

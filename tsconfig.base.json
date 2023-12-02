@@ -22,8 +22,8 @@
             "@package/exceptions": ["packages/exceptions/src/index.ts"],
             "@packages/logger": ["packages/logger/src/index.ts"],
             "@packages/middlewares": ["packages/middlewares/src/index.ts"],
-            "@packages/mongoose-sidecar": [
-                "packages/mongoose-sidecar/src/index.ts"
+            "@packages/mongoose-utils": [
+                "packages/mongoose-utils/src/index.ts"
             ],
             "@packages/serverless-response": [
                 "packages/serverless-response/src/index.ts"

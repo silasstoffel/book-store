@@ -1,17 +1,17 @@
 {
-    "name": "mongoose-sidecar",
+    "name": "mongoose-utils",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/mongoose-sidecar/src",
+    "sourceRoot": "packages/mongoose-utils/src",
     "projectType": "library",
     "targets": {
         "build": {
             "executor": "@nx/esbuild:esbuild",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/packages/mongoose-sidecar",
-                "main": "packages/mongoose-sidecar/src/index.ts",
-                "tsConfig": "packages/mongoose-sidecar/tsconfig.lib.json",
-                "assets": ["packages/mongoose-sidecar/*.md"],
+                "outputPath": "dist/packages/mongoose-utils",
+                "main": "packages/mongoose-utils/src/index.ts",
+                "tsConfig": "packages/mongoose-utils/tsconfig.lib.json",
+                "assets": ["packages/mongoose-utils/*.md"],
                 "generatePackageJson": true,
                 "format": ["cjs"]
             }
@@ -21,8 +21,8 @@
             "outputs": ["{options.outputFile}"],
             "options": {
                 "lintFilePatterns": [
-                    "packages/mongoose-sidecar/**/*.ts",
-                    "packages/mongoose-sidecar/package.json"
+                    "packages/mongoose-utils/**/*.ts",
+                    "packages/mongoose-utils/package.json"
                 ]
             }
         },
@@ -30,7 +30,7 @@
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "packages/mongoose-sidecar/jest.config.ts",
+                "jestConfig": "packages/mongoose-utils/jest.config.ts",
                 "passWithNoTests": true
             },
             "configurations": {
