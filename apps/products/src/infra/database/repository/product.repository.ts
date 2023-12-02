@@ -36,6 +36,18 @@ export class ProductRepository implements IProductRepository {
         }
     }
 
+    async getById(id: string): Promise<Product> {
+        try {
+            const record = await this.model.findOne({ id }).exec()
+            if (!record) {
+                throw new ProductNotFoundException()
+            }
+            return new Product(record);
+        } catch (error) {
+            this.resolveCommonException(error)
+        }
+    }
+
     private resolveCommonException(error: unknown, throwUnknownException = true): void {
         const { code } = error as { code?: number }
         if (code === 11000) {
