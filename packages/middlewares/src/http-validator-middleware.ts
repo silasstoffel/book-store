@@ -49,7 +49,7 @@ export const HttpPathValidatorMiddleware = (schema: z.AnyZodObject) => {
     const  before = async (handler: Handler) => {
         const path = handler.event.pathParameters;
         try {
-            schema.parse(path);
+            schema.parse(path ?? {});
             return undefined;
         } catch (error) {
             const details = error as ZodError;
