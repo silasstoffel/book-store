@@ -5,7 +5,9 @@
         "tslib": "^2.3.0",
         "zod": "^3.22.4",
     "mongoose": "^8.0.1",
-    "logger": "*"
+    "logger": "*",
+    "@middy/core": "^4.6.5",
+    "@package/execptions": "*"
     },
     "type": "commonjs",
     "main": "./src/index.js",
