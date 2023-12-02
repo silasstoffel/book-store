@@ -1,4 +1,4 @@
-import { BaseException } from '@package/exceptions';
+import { BaseException, EntityNotFoundException } from '@package/exceptions';
 import { ExceptionCode } from './enum';
 
 export class ProductNameAlreadyExistsException extends BaseException {
@@ -9,5 +9,15 @@ export class ProductNameAlreadyExistsException extends BaseException {
             { httpStatusCode: 400 }
         );
         this.name = 'ProductNameAlreadyExistsException';
+    }
+}
+
+export class ProductNotFoundException extends EntityNotFoundException {
+    constructor() {
+        super(
+            'Product not found.',
+            ExceptionCode.PRODUCT_NOT_FOUND,
+        );
+        this.name = 'ProductNotFoundException';
     }
 }
