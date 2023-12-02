@@ -20,13 +20,13 @@ export class UnknownException extends BaseException {
     }
 }
 
-export class EntityNotFoundException extends Error {
+export class EntityNotFoundException extends BaseException {
     constructor(
         message: string,
-        public readonly code: string,
-        public readonly additionalParams: ExceptionAdditionalParams = { httpStatusCode: 404 },
+        code: string,
+        additionalParams: ExceptionAdditionalParams = { httpStatusCode: 404 },
     ) {
-        super(message);
+        super(message, code, additionalParams);
         this.name = 'EntityNotFoundException';
     }
 }

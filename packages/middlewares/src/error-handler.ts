@@ -55,7 +55,7 @@ const httpError = (logger: ILogger, handler: Handler) => {
     let statusCode = 500
     let body = { code: 'UNKNOWN_ERROR', message: 'Unknown server error' }
 
-    if (handler.error instanceof BaseException || handler.error instanceof UnknownException) {
+    if (handler.error instanceof BaseException) {
         const exception = handler.error as BaseException;
         statusCode = exception.additionalParams?.httpStatusCode || 500,
         body = { code: exception.code, message: exception.message }
