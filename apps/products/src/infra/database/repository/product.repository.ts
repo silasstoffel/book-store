@@ -4,9 +4,12 @@ import { Model } from 'mongoose';
 import { ProductNameAlreadyExistsException, ProductNotFoundException } from '../../../domain/exceptions';
 import { UnknownException } from '@package/exceptions';
 import { buildSetAndUnsetOperators } from '@packages/mongoose-utils';
-
+import { ILogger, Logger } from '@packages/logger'
 export class ProductRepository implements IProductRepository {
-    constructor(private readonly model: Model<Product>) {}
+    constructor(
+        private readonly model: Model<Product>,
+        private readonly logger: ILogger
+    ) {}
 
     async create(product: Product): Promise<Product> {
         try {
@@ -51,14 +54,17 @@ export class ProductRepository implements IProductRepository {
     private resolveCommonException(error: unknown, throwUnknownException = true): void {
         const { code } = error as { code?: number }
         if (code === 11000) {
+            this.logger.warn('Product name already exists.')
             throw new ProductNameAlreadyExistsException()
         }
 
         if (error instanceof ProductNotFoundException) {
+            this.logger.warn('Product not found.')
             throw error
         }
 
         if (throwUnknownException) {
+            this.logger.error('Product name already exists.', error as Error)
             throw new UnknownException()
         }
     }

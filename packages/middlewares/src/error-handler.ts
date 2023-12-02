@@ -41,6 +41,7 @@ const getEventType = (event: Event): EventType => {
 const unknownError = (logger: ILogger, handler: Handler) => {
     const error = handler.error;
     logger.error('Unknown event type', error);
+    console.error(JSON.stringify(error, null, 2));
     return {
         statusCode: 500,
         headers: {
