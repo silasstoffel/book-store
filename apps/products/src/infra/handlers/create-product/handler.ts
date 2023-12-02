@@ -13,7 +13,7 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     logger.info('Creating product');
     const payload = createProductSchema.parse(JSON.parse(event.body || '{}'))
     const repository = new ProductRepository(getProductModel())
-    const useCase = new CreateProductUseCase(repository, logger)
+    const useCase = new CreateProductUseCase(repository)
     const product = await useCase.execute(payload as CreateProductInput)
     logger.info('Product created', { product: product.id })
 

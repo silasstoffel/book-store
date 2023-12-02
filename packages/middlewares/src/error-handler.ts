@@ -62,7 +62,7 @@ const httpError = (logger: ILogger, handler: Handler) => {
     }
 
     return {
-        statusCode: 500,
+        statusCode,
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(body)
     };
