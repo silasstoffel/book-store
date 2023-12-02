@@ -5,6 +5,7 @@ import { ProductNameAlreadyExistsException, ProductNotFoundException } from '../
 import { UnknownException } from '@package/exceptions';
 import { buildSetAndUnsetOperators } from '@packages/mongoose-utils';
 import { ILogger } from '@packages/logger'
+import { Paginate, PaginateArgs, LIMIT_DEFAULT } from '@core/domain';
 export class ProductRepository implements IProductRepository {
     constructor(
         private readonly model: Model<Product>,
@@ -48,6 +49,31 @@ export class ProductRepository implements IProductRepository {
             return new Product(record);
         } catch (error) {
             this.resolveCommonException(error)
+        }
+    }
+
+    async findAll(args: Partial<PaginateArgs>): Promise<Paginate<Product>> {
+        const {  limit, page } = { page: 1, limit: LIMIT_DEFAULT, ...args } as PaginateArgs
+
+        const result = await this.model.find({
+            $sort: { id: 1 },
+            $limit: limit + 1,
+        }).exec()
+
+        const hasMore = result.length > limit
+        let next = null;
+        let previous = null
+
+        if (hasMore) {
+            result.pop()
+            next = args.page + 1
+            previous = page > 1 ? page - 1 : null
+        }
+
+        return {
+            hasMore,
+            data: result?.map((item) => new Product(item)),
+            info: { page, next, previous }
         }
     }
 
