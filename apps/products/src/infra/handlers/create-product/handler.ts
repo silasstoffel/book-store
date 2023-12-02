@@ -1,6 +1,5 @@
 import { APIGatewayEvent, Context } from "aws-lambda";
-import middy from '@middy/core'
-import { HttpValidatorMiddleware, MongooseConnectionMiddleware } from '@packages/middlewares'
+import { HttpValidatorMiddleware, MongooseConnectionMiddleware, middify } from '@packages/middlewares'
 import { Logger } from '@packages/logger'
 import { httpCreated } from '@packages/serverless-response'
 import { createProductSchema } from './schema'
@@ -21,6 +20,6 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     return httpCreated(product);
 };
 
-export const main = middy(handler)
+export const main = middify(handler)
     .use(HttpValidatorMiddleware(createProductSchema))
     .use(MongooseConnectionMiddleware())

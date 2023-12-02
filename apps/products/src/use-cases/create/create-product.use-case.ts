@@ -11,15 +11,6 @@ export class CreateProductUseCase {
     ) {}
 
     public async execute(product: CreateProductInput): Promise<Product> {
-        try {
-            return await this.productRepository.create(new Product(product));
-        } catch (error) {
-            this.logger.error(
-                'Error to create product.',
-                error as Error,
-                { product: product.name }
-            );
-            throw new ProductNameAlreadyExistsException()
-        }
+        return this.productRepository.create(new Product(product));
     }
 }

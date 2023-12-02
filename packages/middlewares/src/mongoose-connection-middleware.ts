@@ -1,18 +1,17 @@
 import { Logger } from '@packages/logger'
+import { Context } from 'aws-lambda';
 import mongoose, { Error } from 'mongoose'
 interface Handler {
-    context: {
-        callbackWaitsForEmptyEventLoop: boolean
-    }
+    context: Context
 }
 
 let connection: mongoose.Connection | null = null;
 
 export const MongooseConnectionMiddleware = () => {
-    const logger = Logger.build();
     const { MONGO_URI } = process.env;
 
     const before = async (handler: Handler) => {
+        const logger = Logger.build({ context: handler.context });
         logger.info('Trying to creating a new connection or get a existing connection');
         handler.context.callbackWaitsForEmptyEventLoop = false
         try {
