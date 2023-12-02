@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { ProductNameAlreadyExistsException, ProductNotFoundException } from '../../../domain/exceptions';
 import { UnknownException } from '@package/exceptions';
 import { buildSetAndUnsetOperators } from '@packages/mongoose-utils';
-import { ILogger, Logger } from '@packages/logger'
+import { ILogger } from '@packages/logger'
 export class ProductRepository implements IProductRepository {
     constructor(
         private readonly model: Model<Product>,

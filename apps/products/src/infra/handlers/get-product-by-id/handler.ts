@@ -16,7 +16,7 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     const product = event.pathParameters?.product;
 
     logger.info('Getting product information', { product });
-    const useCase = new GetProductByIdUseCase(new ProductRepository(getProductModel()))
+    const useCase = new GetProductByIdUseCase(new ProductRepository(getProductModel(), logger))
     const record = await useCase.execute(product)
     logger.info('Got product information', { product })
 

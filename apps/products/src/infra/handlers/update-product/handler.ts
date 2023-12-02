@@ -17,7 +17,7 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     const logger = Logger.build({ context });
     logger.info('Updating product');
     const payload = updateProductSchema.parse(JSON.parse(event.body || '{}'))
-    const repository = new ProductRepository(getProductModel())
+    const repository = new ProductRepository(getProductModel(), logger)
     const useCase = new UpdateProductUseCase(repository)
     const product = await useCase.execute('', payload as UpdateProductInput)
     logger.info('Product updated', { product: product.id })
