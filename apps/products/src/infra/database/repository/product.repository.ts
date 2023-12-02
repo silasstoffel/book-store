@@ -3,7 +3,7 @@ import { Product } from '../../../domain/product.entity';
 import { Model } from 'mongoose';
 import { ProductNameAlreadyExistsException, ProductNotFoundException } from '../../../domain/exceptions';
 import { UnknownException } from '@package/exceptions';
-import { buildSetAndUnsetOperators } from '@package/mongoose-utils';
+import { buildSetAndUnsetOperators } from '@packages/mongoose-utils';
 
 export class ProductRepository implements IProductRepository {
     constructor(private readonly model: Model<Product>) {}
