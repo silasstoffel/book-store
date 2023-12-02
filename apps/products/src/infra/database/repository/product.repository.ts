@@ -64,7 +64,7 @@ export class ProductRepository implements IProductRepository {
         }
 
         if (throwUnknownException) {
-            this.logger.error('Product name already exists.', error as Error)
+            this.logger.error('An error occurred.', error as Error)
             throw new UnknownException()
         }
     }

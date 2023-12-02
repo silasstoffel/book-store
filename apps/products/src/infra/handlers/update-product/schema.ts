@@ -10,6 +10,6 @@ export const updateProductSchema = z.object({
 })
 
 export const pathUpdateProductSchema = z.object({
-    product: z.string().min(1).max(80).trim(),
+    product: z.string().min(26).max(26).trim(),
 })
 

@@ -41,7 +41,6 @@ const getEventType = (event: Event): EventType => {
 const unknownError = (logger: ILogger, handler: Handler) => {
     const error = handler.error;
     logger.error('Unknown event type', error);
-    console.error(JSON.stringify(error, null, 2));
     return {
         statusCode: 500,
         headers: {
@@ -54,14 +53,13 @@ const unknownError = (logger: ILogger, handler: Handler) => {
 const httpError = (logger: ILogger, handler: Handler) => {
     let statusCode = 500
     let body = { code: 'UNKNOWN_ERROR', message: 'Unknown server error' }
-
+    logger.error('An error occurred. Checking...', handler.error, { source: 'httpError'});
     if (handler.error instanceof BaseException) {
         const exception = handler.error as BaseException;
         statusCode = exception.additionalParams?.httpStatusCode || 500,
         body = { code: exception.code, message: exception.message }
         logger.error(exception.message, exception, { statusCode, body});
     }
-
     return {
         statusCode,
         headers: { 'content-type': 'application/json' },
