@@ -57,7 +57,7 @@ export class ProductRepository implements IProductRepository {
         const name = args.name ? { name: new RegExp(args.name, 'i')} : {}
         const category = args.category ? { category:args.category } : {}
         const startingAfterFilter = startingAfter ? { id: { $gt: startingAfter } } : {}
-        const endingBeforeFilter = endingBefore ? { id: { $lt: startingAfter } } : {}
+        const endingBeforeFilter = endingBefore ? { id: { $lt: endingBefore } } : {}
 
         const result = await this.model.find({
             ...name,
