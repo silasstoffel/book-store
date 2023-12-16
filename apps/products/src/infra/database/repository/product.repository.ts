@@ -60,10 +60,10 @@ export class ProductRepository implements IProductRepository {
         const endingBeforeFilter = endingBefore ? { id: { $lt: endingBefore } } : {}
 
         const result = await this.model.find({
+            ...startingAfterFilter,
+            ...endingBeforeFilter,
             ...name,
             ...category,
-            ...startingAfterFilter,
-            ...endingBeforeFilter
         }).sort({ id: endingBefore ? -1 : 1 })
         .limit(limit + 1)
         .exec()
