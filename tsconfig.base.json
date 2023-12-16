@@ -19,6 +19,7 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
+            "@core/domain": ["apps/@core/index.ts"],
             "@package/exceptions": ["packages/exceptions/src/index.ts"],
             "@packages/logger": ["packages/logger/src/index.ts"],
             "@packages/middlewares": ["packages/middlewares/src/index.ts"],
@@ -34,9 +35,7 @@
             "@packages/serverless-utils": [
                 "packages/serverless-utils/src/index.ts"
             ],
-            "@core/domain": [
-                "apps/@core/index.ts"
-            ]
+            "packages/events": ["packages/events/src/index.ts"]
         }
     },
     "ts-node": {
