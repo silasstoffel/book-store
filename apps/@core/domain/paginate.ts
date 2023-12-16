@@ -1,5 +1,5 @@
 interface Record {
-    id: unknown
+    id: string
 }
 export interface AdditionalProperties {
     startingAfter?: number;
@@ -21,7 +21,7 @@ export interface PaginateArgs {
 
 export const LIMIT_DEFAULT = 12
 
-export const buildPaginateResponse = (args: PaginateArgs, data:Record[] = []) => {
+export const buildPaginateResponse = <T>(args: PaginateArgs, data:T[]): Paginate<T> => {
     const { limit } = { limit: LIMIT_DEFAULT, ...args }
     let counter = data.length
     const hasMore = counter > limit

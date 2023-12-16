@@ -53,11 +53,11 @@ export class ProductRepository implements IProductRepository {
     }
 
     async findAll(args: FindAllInput): Promise<Paginate<Product>> {
-        const { limit } = { limit: LIMIT_DEFAULT, ...args }
+        const { limit, startingAfter, endingBefore } = { limit: LIMIT_DEFAULT, ...args }
         const name = args.name ? { name: new RegExp(args.name, 'i')} : {}
         const category = args.category ? { category:args.category } : {}
-        const startingAfterFilter = args.startingAfter ? { id: { $gt: args.startingAfter } } : {}
-        const endingBeforeFilter = args.endingBefore ? { id: { $lt: args.startingAfter } } : {}
+        const startingAfterFilter = startingAfter ? { id: { $gt: startingAfter } } : {}
+        const endingBeforeFilter = endingBefore ? { id: { $lt: startingAfter } } : {}
 
         const result = await this.model.find({
             ...name,
@@ -68,7 +68,7 @@ export class ProductRepository implements IProductRepository {
         .limit(limit + 1)
         .exec()
 
-        return buildPaginateResponse(args, result?.map(record => new Product(record)))
+        return buildPaginateResponse<Product>(args, result?.map(record => new Product(record)))
     }
 
     private resolveCommonException(error: unknown, throwUnknownException = true): void {
