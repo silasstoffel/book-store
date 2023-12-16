@@ -1,11 +1,11 @@
 import { IProductRepository, FindAllInput } from '../../../domain/product.repository';
 import { Product } from '../../../domain/product.entity';
-import { Model, SortOrder } from 'mongoose';
+import { Model } from 'mongoose';
 import { ProductNameAlreadyExistsException, ProductNotFoundException } from '../../../domain/exceptions';
 import { UnknownException } from '@package/exceptions';
 import { buildSetAndUnsetOperators } from '@packages/mongoose-utils';
 import { ILogger } from '@packages/logger'
-import { Paginate, LIMIT_DEFAULT } from '@core/domain';
+import { Paginate, LIMIT_DEFAULT, buildPaginateResponse } from '@core/domain';
 export class ProductRepository implements IProductRepository {
     constructor(
         private readonly model: Model<Product>,
@@ -53,34 +53,22 @@ export class ProductRepository implements IProductRepository {
     }
 
     async findAll(args: FindAllInput): Promise<Paginate<Product>> {
-        const { limit, page, sort } = { sort: { id: 1}, page: 1, limit: LIMIT_DEFAULT, ...args } as FindAllInput
+        const { limit } = { limit: LIMIT_DEFAULT, ...args }
         const name = args.name ? { name: new RegExp(args.name, 'i')} : {}
         const category = args.category ? { category:args.category } : {}
-        const skip = limit * (page - 1);
+        const startingAfterFilter = args.startingAfter ? { id: { $gt: args.startingAfter } } : {}
+        const endingBeforeFilter = args.endingBefore ? { id: { $lt: args.startingAfter } } : {}
 
         const result = await this.model.find({
             ...name,
-            ...category
-        }).sort(sort)
-        .skip(skip)
+            ...category,
+            ...startingAfterFilter,
+            ...endingBeforeFilter
+        }).sort({ id: args?.endingBefore ? -1 : 1 })
         .limit(limit + 1)
         .exec()
 
-        const hasMore = result.length > limit
-        let next = null;
-        let previous = null
-
-        if (hasMore) {
-            result.pop()
-            next = args.page + 1
-            previous = page > 1 ? page - 1 : null
-        }
-
-        return {
-            hasMore,
-            data: result?.map((item) => new Product(item)),
-            info: { page, next, previous }
-        }
+        return buildPaginateResponse(args, result)
     }
 
     private resolveCommonException(error: unknown, throwUnknownException = true): void {

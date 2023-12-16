@@ -1,7 +1,7 @@
 export interface AdditionalProperties {
-    page?: number;
-    next?: number | null;
-    previous?: number | null;
+    startingAfter?: number;
+    endingBefore?: number | null;
+    counter?: number;
 }
 
 export interface Paginate<T> {
@@ -10,12 +10,31 @@ export interface Paginate<T> {
     info?: AdditionalProperties
 }
 
-export type SortMode = 1 | -1
-
 export interface PaginateArgs {
-    page: number;
     limit?: number;
-    sort?: Record<string, SortMode>;
+    startingAfter?: string;
+    endingBefore?: string;
 }
 
 export const LIMIT_DEFAULT = 12
+
+export const buildPaginateResponse = (args: PaginateArgs, data = []) => {
+    const { limit } = args
+    const counter = data.length
+    const hasMore = counter > limit
+
+    if (counter && args.endingBefore) {
+        data.pop()
+    }
+
+    data = args.endingBefore ? data.reverse() : data
+
+    return {
+        hasMore,
+        data,
+        info: {
+            startingAfter: counter ?? data[0].id,
+            endingBefore: counter ?? data[counter-1].id,
+        }
+    }
+}
