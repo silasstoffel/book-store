@@ -64,7 +64,7 @@ export class ProductRepository implements IProductRepository {
             ...category,
             ...startingAfterFilter,
             ...endingBeforeFilter
-        }).sort({ id: args?.endingBefore ? -1 : 1 })
+        }).sort({ id: endingBefore ? -1 : 1 })
         .limit(limit + 1)
         .exec()
 
