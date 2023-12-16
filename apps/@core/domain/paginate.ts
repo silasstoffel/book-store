@@ -10,11 +10,12 @@ export interface Paginate<T> {
     info?: AdditionalProperties
 }
 
+export type SortMode = 1 | -1
+
 export interface PaginateArgs {
     page: number;
     limit?: number;
-    filter?: object;
-    sort?: object;
+    sort?: Record<string, SortMode>;
 }
 
 export const LIMIT_DEFAULT = 12

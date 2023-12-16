@@ -1,11 +1,11 @@
-import { IProductRepository } from '../../../domain/product.repository';
+import { IProductRepository, FindAllInput } from '../../../domain/product.repository';
 import { Product } from '../../../domain/product.entity';
-import { Model } from 'mongoose';
+import { Model, SortOrder } from 'mongoose';
 import { ProductNameAlreadyExistsException, ProductNotFoundException } from '../../../domain/exceptions';
 import { UnknownException } from '@package/exceptions';
 import { buildSetAndUnsetOperators } from '@packages/mongoose-utils';
 import { ILogger } from '@packages/logger'
-import { Paginate, PaginateArgs, LIMIT_DEFAULT } from '@core/domain';
+import { Paginate, LIMIT_DEFAULT } from '@core/domain';
 export class ProductRepository implements IProductRepository {
     constructor(
         private readonly model: Model<Product>,
@@ -52,15 +52,19 @@ export class ProductRepository implements IProductRepository {
         }
     }
 
-    async findAll(args: PaginateArgs): Promise<Paginate<Product>> {
-        const {  limit, page, sort, filter } = { page: 1, limit: LIMIT_DEFAULT, ...args }
-        const where = filter ?? {}
+    async findAll(args: FindAllInput): Promise<Paginate<Product>> {
+        const { limit, page, sort } = { sort: { id: 1}, page: 1, limit: LIMIT_DEFAULT, ...args } as FindAllInput
+        const name = args.name ? { name: new RegExp(args.name, 'i')} : {}
+        const category = args.category ? { category:args.category } : {}
         const skip = limit * (page - 1);
 
         const result = await this.model.find({
-            ...where,
-            $sort: sort ?? {},
-        }).skip(skip).limit(limit + 1).exec()
+            ...name,
+            ...category
+        }).sort(sort)
+        .skip(skip)
+        .limit(limit + 1)
+        .exec()
 
         const hasMore = result.length > limit
         let next = null;

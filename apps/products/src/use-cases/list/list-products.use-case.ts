@@ -1,6 +1,6 @@
 import { Paginate } from "@core/domain";
 import { Product } from "../../domain/product.entity";
-import { IProductRepository } from "../../domain/product.repository";
+import { FindAllInput, IProductRepository } from "../../domain/product.repository";
 
 export interface ListProductInput {
     page?: number;
@@ -15,12 +15,6 @@ export class ListProductsUseCase {
     ) {}
 
     public async execute(input: ListProductInput): Promise<Paginate<Product>> {
-        const { page, limit, ...rest } = input;
-
-        return this.productRepository.findAll({
-            page,
-            limit,
-            filter: rest,
-        });
+        return this.productRepository.findAll(input as FindAllInput);
     }
 }
