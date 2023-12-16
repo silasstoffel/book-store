@@ -7,7 +7,7 @@ export class EventBridge {
                 Properties: {
                     Name: 'book-store',
                     Tags: [
-                        { key: 'service', value: 'book-store' }
+                        { Key: 'service', Value: 'book-store' }
                     ],
                 },
             }
