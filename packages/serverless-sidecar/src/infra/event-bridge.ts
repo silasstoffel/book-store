@@ -1,0 +1,39 @@
+export class EventBridge {
+    public readonly resourceName = 'BookStoreEventBus'
+    getResource() {
+        return {
+            [this.resourceName]: {
+                Type: 'AWS::Events::EventBus',
+                Properties: {
+                    Name: 'book-store',
+                    Tags: [
+                        { key: 'service', value: 'book-store' }
+                    ],
+                },
+            }
+        };
+    }
+
+    getRoles() {
+        return [
+            {
+              Effect: 'Allow',
+              Action: ['events:PutEvents'],
+              Resource: {
+                'Fn::Join': [
+                  '',
+                  [
+                    'arn:aws:events',
+                    ':',
+                    '${self:provider.region}',
+                    ':',
+                    { Ref: 'AWS::AccountId' },
+                    ':',
+                    'event-bus/book-store',
+                  ],
+                ],
+              },
+            },
+        ];
+    }
+}

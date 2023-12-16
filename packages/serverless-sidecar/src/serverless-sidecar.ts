@@ -1,7 +1,9 @@
 import type { AWS } from '@serverless/typescript'
 import { SystemManager } from './infra/system-manager';
+import { EventBridge } from './infra/event-bridge';
 
 const systemManager = new SystemManager()
+const eventBridge = new EventBridge()
 
 export function serverlessSidecar(config: AWS): AWS {
     const sls: AWS = config;
@@ -25,10 +27,22 @@ export function serverlessSidecar(config: AWS): AWS {
         }
     }
 
-    config.provider.iam.role['statements'].push(...systemManager.getRoles())
+    config.provider.iam.role['statements'].push(
+        ...systemManager.getRoles(),
+        ...eventBridge.getRoles(),
+    )
+
+    if (!config.resources) {
+        config.resources = {
+          Resources: {},
+        }
+    }
+
+    config.resources.Resources = {
+       ...eventBridge.getResource(),
+    }
 
     sls.package = { individually: true }
-
     sls.plugins = ['serverless-esbuild', 'serverless-offline']
 
     if (!sls.custom) {
