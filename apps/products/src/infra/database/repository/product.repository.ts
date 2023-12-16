@@ -52,13 +52,15 @@ export class ProductRepository implements IProductRepository {
         }
     }
 
-    async findAll(args: Partial<PaginateArgs>): Promise<Paginate<Product>> {
-        const {  limit, page } = { page: 1, limit: LIMIT_DEFAULT, ...args } as PaginateArgs
+    async findAll(args: PaginateArgs): Promise<Paginate<Product>> {
+        const {  limit, page, sort, filter } = { page: 1, limit: LIMIT_DEFAULT, ...args }
+        const where = filter ?? {}
+        const skip = limit * (page - 1);
 
         const result = await this.model.find({
-            $sort: { id: 1 },
-            $limit: limit + 1,
-        }).exec()
+            ...where,
+            $sort: sort ?? {},
+        }).skip(skip).limit(limit + 1).exec()
 
         const hasMore = result.length > limit
         let next = null;

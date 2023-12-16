@@ -1,4 +1,8 @@
-export { HttpValidatorMiddleware, HttpPathValidatorMiddleware } from './http-validator-middleware';
+export {
+    HttpValidatorMiddleware,
+    HttpPathValidatorMiddleware,
+    HttpQueryStringValidatorMiddleware
+} from './http-validator-middleware';
 export { MongooseConnectionMiddleware } from './mongoose-connection-middleware';
 export { middify } from './middify';
 export { ErrorHandlerMiddleware } from './error-handler';

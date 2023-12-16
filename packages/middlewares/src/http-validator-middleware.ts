@@ -73,3 +73,32 @@ export const HttpPathValidatorMiddleware = (schema: z.AnyZodObject) => {
 
     return { before, after: undefined, onError: undefined }
 }
+
+export const HttpQueryStringValidatorMiddleware = (schema: z.AnyZodObject) => {
+    const  before = async (handler: Handler) => {
+        const params = handler.event.queryStringParameters;
+        try {
+            schema.parse(params ?? {});
+            return undefined;
+        } catch (error) {
+            const details = error as ZodError;
+            const errors = details.errors.map((err) => {
+                return {
+                    field: err.path.join('.'),
+                    message: err.message,
+                };
+            });
+
+            return {
+                statusCode: 400,
+                body: JSON.stringify({
+                    code: 'INVALID_QUERY_STRING_PARAMETERS',
+                    message: 'Validation failed.',
+                    errors
+                })
+            }
+        }
+    }
+
+    return { before, after: undefined, onError: undefined }
+}

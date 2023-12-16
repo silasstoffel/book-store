@@ -13,6 +13,8 @@ export interface Paginate<T> {
 export interface PaginateArgs {
     page: number;
     limit?: number;
+    filter?: object;
+    sort?: object;
 }
 
 export const LIMIT_DEFAULT = 12
