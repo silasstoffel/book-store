@@ -6,5 +6,6 @@ export const createProductSchema = z.object({
     description: z.string().min(0).max(255).trim(),
     price: z.number().min(0).positive(),
     quantity: z.number().gte(0.01).positive(),
-    category: z.nativeEnum(ProductCategory).optional()
+    category: z.nativeEnum(ProductCategory).optional(),
+    active: z.boolean().optional().default(true)
 })

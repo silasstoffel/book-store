@@ -6,7 +6,8 @@ export const updateProductSchema = z.object({
     description: z.string().min(0).max(255).trim().optional(),
     price: z.number().min(0).positive().optional(),
     quantity: z.number().gte(0.01).positive().optional(),
-    category: z.nativeEnum(ProductCategory).optional()
+    category: z.nativeEnum(ProductCategory).optional(),
+    active: z.boolean().optional()
 })
 
 export const pathUpdateProductSchema = z.object({

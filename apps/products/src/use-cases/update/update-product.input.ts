@@ -6,4 +6,5 @@ export interface UpdateProductInput {
     price?: number;
     quantity?: number;
     category?: ProductCategory | null;
+    active?: boolean;
 }

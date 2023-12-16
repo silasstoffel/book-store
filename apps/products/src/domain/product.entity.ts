@@ -9,6 +9,7 @@ export interface ProductSchema {
     category?: ProductCategory;
     createdAt?: Date;
     updatedAt?: Date;
+    active?: boolean;
 }
 
 export class Product {
@@ -21,6 +22,7 @@ export class Product {
     public readonly category?: ProductCategory;
     public readonly createdAt?: Date;
     public readonly updatedAt?: Date;
+    public readonly active?: boolean;
 
     public constructor(product: ProductSchema) {
         this.id = product.id;
@@ -31,5 +33,6 @@ export class Product {
         this.category = product.category;
         this.createdAt = !product.createdAt && !this.id ? new Date() : product.createdAt;
         this.updatedAt = !product.updatedAt && !this.id ? new Date() : product.updatedAt;
+        this.active = typeof product.active === undefined ? true : product.active;
     }
 }
