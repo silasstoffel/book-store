@@ -19,22 +19,20 @@ export interface PaginateArgs {
 export const LIMIT_DEFAULT = 12
 
 export const buildPaginateResponse = (args: PaginateArgs, data = []) => {
-    const { limit } = args
-    const counter = data.length
-    const hasMore = counter > limit
-
-    if (counter && args.endingBefore) {
+    const { limit } = { limit: LIMIT_DEFAULT, ...args }
+    if (data.length && args?.endingBefore) {
         data.pop()
     }
-
-    data = args.endingBefore ? data.reverse() : data
+    const counter = data.length
+    const hasMore = counter > limit
+    data = args?.endingBefore ? data.reverse() : data
 
     return {
         hasMore,
         data,
         info: {
-            startingAfter: counter ?? data[0].id,
-            endingBefore: counter ?? data[counter-1].id,
+            startingAfter: counter ? data[counter-1].id: null,
+            endingBefore: counter ? data[0].id : null,
         }
     }
 }
