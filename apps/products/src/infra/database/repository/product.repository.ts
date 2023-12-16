@@ -68,7 +68,7 @@ export class ProductRepository implements IProductRepository {
         .limit(limit + 1)
         .exec()
 
-        return buildPaginateResponse(args, result)
+        return buildPaginateResponse(args, result?.map(record => new Product(record)))
     }
 
     private resolveCommonException(error: unknown, throwUnknownException = true): void {
