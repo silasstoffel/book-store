@@ -16,7 +16,7 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
 
     logger.info('Listing products information');
     const useCase = new ListProductsUseCase(new ProductRepository(getProductModel(), logger))
-    const params = queryStringListProductSchema.parse(event.queryStringParameters)
+    const params = queryStringListProductSchema.parse(event.queryStringParameters ?? {})
     const record = await useCase.execute(params)
     logger.info('Listing products information')
 
