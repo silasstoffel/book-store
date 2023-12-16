@@ -6,4 +6,5 @@ export const queryStringListProductSchema = z.object({
     category: z.string().trim().optional().default(undefined),
     startingAfter: z.string().trim().optional().default(undefined),
     endingBefore: z.string().trim().optional().default(undefined),
+    limit: z.preprocess((v) => Number(v), z.number().min(1).max(100)).optional().default(10)
 })

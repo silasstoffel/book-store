@@ -3,7 +3,6 @@ import { Product } from "../../domain/product.entity";
 import { FindAllInput, IProductRepository } from "../../domain/product.repository";
 
 export interface ListProductInput {
-    page?: number;
     limit?: number;
     name?: string;
     category?: string;
