@@ -36,8 +36,8 @@ export const buildPaginateResponse = <T>(args: PaginateArgs, data:T[]): Paginate
         hasMore,
         data,
         info: {
-            startingAfter: hasMore ? data[counter-1]?.id: null,
-            endingBefore: counter ? data[0]?.id : null,
+            startingAfter: hasMore ? data[counter-1]['id']: null,
+            endingBefore: counter ? data[0]['id'] : null,
         }
     }
 }
