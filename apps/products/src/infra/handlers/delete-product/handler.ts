@@ -10,13 +10,17 @@ import { pathGetProductSchema } from './schema'
 import getProductModel from '../../database/model/product.model';
 import { ProductRepository } from '../../database/repository/product.repository';
 import { DeleteProductUseCase } from '../../../use-cases/delete/delete-product.use-case';
+import { EventProducer } from "@packages/events";
 
 const handler = async (event: APIGatewayEvent, context: Context) => {
     const logger = Logger.build({ context });
     const product = event.pathParameters?.product;
 
     logger.info('Deleting product', { product });
-    const useCase = new DeleteProductUseCase(new ProductRepository(getProductModel(), logger))
+    const useCase = new DeleteProductUseCase(
+        new ProductRepository(getProductModel(), logger),
+        new EventProducer(logger)
+    )
     await useCase.execute(product)
     logger.info('Product deleted', { product })
 
