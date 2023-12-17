@@ -9,8 +9,7 @@ export default {
           eventBus: {
             arn: {
               'Fn::Sub': [
-                'arn:aws:events:',
-                '${self:provider.region}:${AWS::AccountId}:event-bus/book-store',
+                'arn:aws:events:${AWS::Region}:${AWS::AccountId}:event-bus/book-store',
               ],
             },
           },
@@ -24,7 +23,8 @@ export default {
         },
       },
     ],
-};
+  };
+
 
 
 
