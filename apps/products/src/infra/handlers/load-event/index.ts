@@ -6,6 +6,7 @@ export default {
     events: [
         {
             eventBridge: {
+                eventBus: 'book-store',
                 pattern: {
                   'detail-type': [
                     Event.PRODUCT_CREATED,
