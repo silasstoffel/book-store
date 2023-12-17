@@ -7,7 +7,20 @@ export default {
         {
             eventBridge: {
                 eventBus: {
-                    arn: 'arn:aws:events:${aws.region}:${aws.accountId}:event-bus/book-store'
+                    arn: {
+                        'Fn::Join': [
+                            '',
+                            [
+                              'arn:aws:events',
+                              ':',
+                              '${self:provider.region}',
+                              ':',
+                              { Ref: 'AWS::AccountId' },
+                              ':',
+                              'event-bus/book-store',
+                            ],
+                          ],
+                    }
                 },
                 pattern: {
                   'detail-type': [
