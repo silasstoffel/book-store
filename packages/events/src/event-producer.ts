@@ -1,18 +1,18 @@
  import { IEventProducer } from './ievent-producer';
  import { Logger } from '@packages/logger';
- import { EventBridge } from 'aws-sdk'
+ import { EventBridgeClient, PutEventsCommand } from '@aws-sdk/client-eventbridge';
 
 export class EventProducer implements IEventProducer {
 
     constructor(
         private readonly logger = Logger.build(),
-        private readonly client = new EventBridge()
+        private readonly client = new EventBridgeClient()
     ) {}
 
     async publish(eventType: string, message: object): Promise<void> {
         this.logger.info('Publishing event', { eventType });
         try {
-            await this.client.putEvents({
+            const command = new PutEventsCommand({
                 Entries: [
                     {
                         EventBusName: 'book-store',
@@ -21,7 +21,8 @@ export class EventProducer implements IEventProducer {
                         Detail: JSON.stringify(message),
                     },
                 ],
-            }).promise();
+            });
+            await this.client.send(command);
         } catch (error) {
             this.logger.error('Error publishing event', error as Error, { eventType });
             throw error;

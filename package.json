@@ -14,6 +14,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@aws-sdk/client-eventbridge": "^3.474.0",
     "@nx/esbuild": "16.9.0",
     "@nx/eslint-plugin": "16.9.0",
     "@nx/jest": "16.9.0",
