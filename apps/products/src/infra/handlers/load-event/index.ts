@@ -8,7 +8,7 @@ export default {
         eventBridge: {
           eventBus: {
             arn: {
-              'Fn::Sub': 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:event-bus/book-store',
+                'Fn::Sub': 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:event-bus/book-store',
             },
           },
           pattern: {
