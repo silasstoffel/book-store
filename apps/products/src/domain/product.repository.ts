@@ -11,4 +11,5 @@ export interface IProductRepository {
     update(id: string, product: Partial<Product>): Promise<Product>;
     getById(id: string): Promise<Product>;
     findAll(input: FindAllInput): Promise<Paginate<Product>>;
+    delete(id:string): Promise<boolean>;
 }

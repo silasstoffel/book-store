@@ -7,6 +7,10 @@ import { buildSetAndUnsetOperators } from '@packages/mongoose-utils';
 import { ILogger } from '@packages/logger'
 import { Paginate, LIMIT_DEFAULT, buildPaginateResponse } from '@core/domain';
 export class ProductRepository implements IProductRepository {
+    private readonly deletedFilter = {
+        $or: [{ deleted: { $exists: false } }, { deleted: false }]
+    };
+
     constructor(
         private readonly model: Model<Product>,
         private readonly logger: ILogger
@@ -23,6 +27,7 @@ export class ProductRepository implements IProductRepository {
 
     async update(id: string, product: Partial<Product>): Promise<Product> {
         const { $set, $unset } = buildSetAndUnsetOperators(product)
+        this.logger.info('Attributes to update product', { id, $set, $unset })
         try {
             const record = await this.model.findOneAndUpdate(
                 { id },
@@ -42,7 +47,10 @@ export class ProductRepository implements IProductRepository {
 
     async getById(id: string): Promise<Product> {
         try {
-            const record = await this.model.findOne({ id }).exec()
+            const record = await this.model.findOne({
+                id,
+                ...this.deletedFilter
+            }).exec()
             if (!record) {
                 throw new ProductNotFoundException()
             }
@@ -58,12 +66,12 @@ export class ProductRepository implements IProductRepository {
         const category = args.category ? { category:args.category } : {}
         const startingAfterFilter = startingAfter ? { id: { $gt: startingAfter } } : {}
         const endingBeforeFilter = endingBefore ? { id: { $lt: endingBefore } } : {}
-
         const result = await this.model.find({
             ...startingAfterFilter,
             ...endingBeforeFilter,
             ...name,
             ...category,
+            ...this.deletedFilter
         }).sort({ id: endingBefore ? -1 : 1 })
         .limit(limit + 1)
         .exec()
@@ -87,5 +95,10 @@ export class ProductRepository implements IProductRepository {
             this.logger.error('An error occurred.', error as Error)
             throw new UnknownException()
         }
+    }
+
+    public async delete(id: string): Promise<boolean> {
+        await this.update(id, { deleted: true })
+        return true
     }
 }

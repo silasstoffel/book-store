@@ -10,6 +10,7 @@ export interface ProductSchema {
     createdAt?: Date;
     updatedAt?: Date;
     active?: boolean;
+    deleted?: boolean;
 }
 
 export class Product {
@@ -23,6 +24,7 @@ export class Product {
     public readonly createdAt?: Date;
     public readonly updatedAt?: Date;
     public readonly active?: boolean;
+    public readonly deleted?: boolean;
 
     public constructor(product: ProductSchema) {
         this.id = product.id;
@@ -34,5 +36,6 @@ export class Product {
         this.createdAt = !product.createdAt && !this.id ? new Date() : product.createdAt;
         this.updatedAt = !product.updatedAt && !this.id ? new Date() : product.updatedAt;
         this.active = typeof product.active === undefined ? true : product.active;
+        this.deleted = typeof product.deleted === undefined ? true : product.deleted;
     }
 }

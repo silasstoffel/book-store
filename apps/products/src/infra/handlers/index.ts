@@ -10,6 +10,6 @@ export default {
     'update-product': updateProduct,
     'get-product': getProduct,
     'list-products': listProducts,
-    'delete-product': deteleProduct,
+    'delete-product': deleteProduct,
     //'load-product-events': loadEvent
 }
