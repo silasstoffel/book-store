@@ -6,9 +6,6 @@ export default {
     events: [
       {
         eventBridge: {
-          eventBus: {
-            arn: 'arn:aws:events:us-east-1:808056304349:event-bus/book-store',
-          },
           pattern: {
             'detail-type': [
               Event.PRODUCT_CREATED,

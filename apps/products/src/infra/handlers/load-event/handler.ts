@@ -4,11 +4,7 @@ import { Logger } from '@packages/logger'
 
 const handler = async (event: EventBridgeEvent<'', unknown>, context: Context) => {
     const logger = Logger.build({ context });
-    const payload = {
-        ...event,
-        detail: JSON.parse(event.detail as string)
-    }
-    logger.info('Received event', payload);
+    logger.info('Received event', event);
 
     return 'Finished'
 };

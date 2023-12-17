@@ -29,7 +29,7 @@ export class EventBridge {
                     ':',
                     { Ref: 'AWS::AccountId' },
                     ':',
-                    'event-bus/book-store',
+                    'event-bus/default',
                   ],
                 ],
               },

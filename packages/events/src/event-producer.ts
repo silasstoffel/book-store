@@ -11,14 +11,19 @@ export class EventProducer implements IEventProducer {
 
     async publish(eventType: string, message: object): Promise<void> {
         this.logger.info('Publishing event', { eventType });
+        const event = {
+            eventType: eventType,
+            publishedAt: new Date().toISOString(),
+            data: message,
+        }
         try {
             const command = new PutEventsCommand({
                 Entries: [
                     {
-                        EventBusName: 'book-store',
+                        EventBusName: 'default',
                         Source: eventType,
                         DetailType: eventType,
-                        Detail: JSON.stringify(message),
+                        Detail: JSON.stringify(event),
                     },
                 ],
             });
