@@ -7,9 +7,7 @@ export default {
         {
             eventBridge: {
                 eventBus: {
-                    arn: {
-                        'Fn::Sub': 'arn:aws:events:${aws.region}:${aws.accountId}:event-bus/book-store',
-                    }
+                    arn: 'arn:aws:events:${aws.region}:${aws.accountId}:event-bus/book-store'
                 },
                 pattern: {
                   'detail-type': [
