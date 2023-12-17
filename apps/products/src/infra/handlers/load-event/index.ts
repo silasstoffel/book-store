@@ -7,9 +7,7 @@ export default {
       {
         eventBridge: {
           eventBus: {
-            arn: {
-                'Fn::GetAtt' : ['BookStoreEventBus', 'Arn' ]
-            },
+            arn: 'arn:aws:events:us-east-1:808056304349:event-bus/book-store',
           },
           pattern: {
             'detail-type': [
