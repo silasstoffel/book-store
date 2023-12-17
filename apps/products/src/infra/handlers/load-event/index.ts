@@ -6,7 +6,11 @@ export default {
     events: [
         {
             eventBridge: {
-                eventBus: 'book-store',
+                eventBus: {
+                    arn: {
+                        'Fn::Sub': 'arn:aws:events:${aws.region}:${aws.accountId}:event-bus/book-store',
+                    }
+                },
                 pattern: {
                   'detail-type': [
                     Event.PRODUCT_CREATED,
