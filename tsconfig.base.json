@@ -35,7 +35,7 @@
             "@packages/serverless-utils": [
                 "packages/serverless-utils/src/index.ts"
             ],
-            "packages/events": ["packages/events/src/index.ts"]
+            "@packages/events": ["packages/events/src/index.ts"]
         }
     },
     "ts-node": {

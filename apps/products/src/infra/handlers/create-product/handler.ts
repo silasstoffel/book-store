@@ -7,13 +7,14 @@ import getProductModel from '../../database/model/product.model';
 import { ProductRepository } from '../../database/repository/product.repository';
 import { CreateProductUseCase } from '../../../use-cases/create/create-product.use-case';
 import { CreateProductInput } from '../../../use-cases/create/create-product.input';
+import { EventProducer } from "@packages/events";
 
 const handler = async (event: APIGatewayEvent, context: Context) => {
     const logger = Logger.build({ context });
     logger.info('Creating product');
     const payload = createProductSchema.parse(JSON.parse(event.body || '{}'))
     const repository = new ProductRepository(getProductModel(), logger)
-    const useCase = new CreateProductUseCase(repository)
+    const useCase = new CreateProductUseCase(repository, new EventProducer(logger))
     const product = await useCase.execute(payload as CreateProductInput)
     logger.info('Product created', { product: product.id })
 

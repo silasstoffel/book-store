@@ -7,6 +7,7 @@ import {
 } from '@packages/middlewares'
 import { Logger } from '@packages/logger'
 import { httpOk } from '@packages/serverless-response'
+import { EventProducer } from "@packages/events";
 import { updateProductSchema, pathUpdateProductSchema } from './schema'
 import getProductModel from '../../database/model/product.model';
 import { ProductRepository } from '../../database/repository/product.repository';
@@ -18,7 +19,7 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     logger.info('Updating product' , { product: id });
     const payload = updateProductSchema.parse(JSON.parse(event.body || '{}'))
     const repository = new ProductRepository(getProductModel(), logger)
-    const useCase = new UpdateProductUseCase(repository)
+    const useCase = new UpdateProductUseCase(repository, new EventProducer(logger))
     const product = await useCase.execute(id, payload)
     logger.info('Product updated', { product: id })
 
