@@ -28,7 +28,7 @@ export function serverlessSidecar(config: AWS): AWS {
     }
 
     // To manager EventBridge resources with cloud formation
-    config.provider.eventBridge.useCloudFormation = true
+    config.provider["eventBridge"]["useCloudFormation"] = true
 
     config.provider.iam.role['statements'].push(
         ...systemManager.getRoles(),
