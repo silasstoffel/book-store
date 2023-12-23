@@ -1,6 +1,5 @@
+import createOrder from './create-order'
+
 export default {
-    'create-product': '',
-    'cancel-product': '',
-    'list-orders': '',
-    'get-order': '',
+    'create-order': createOrder,
 }
