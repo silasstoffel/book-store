@@ -1,8 +1,9 @@
 import { IEventProducer, Event } from "@packages/events";
 import { IOrderRepository } from "../domain/order.repository";
 import { Order } from "../domain/order.entity";
-import { CreateOrderInput } from "./create-order.input";
+import { OrderParams } from "../domain/order.entity";
 
+export type CreateOrderInput = OrderParams
 export class CreateOrderUseCase {
     constructor(
         private readonly orderRepository: IOrderRepository,

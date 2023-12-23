@@ -3,12 +3,12 @@ import { serverlessSidecar } from '@packages/serverless-sidecar'
 import functions from './src/infra/handlers'
 
 const serverless: AWS = {
-    service: 'bookstore-products',
+    service: 'bookstore-orders',
     provider: {
         name: 'aws',
         memorySize: 128,
         environment: {
-            SERVICE_NAME: 'bookstore-products',
+            SERVICE_NAME: 'bookstore-orders',
         }
     },
     functions

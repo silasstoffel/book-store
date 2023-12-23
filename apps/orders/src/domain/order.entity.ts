@@ -3,7 +3,7 @@ import { OrderStatus } from './enum';
 
 export interface OrderParams {
     id?: string;
-    status: OrderStatus;
+    status?: OrderStatus;
     customer: CustomerAttributes;
     totalAmount?: number;
     items: OrderItemParams[];
@@ -15,7 +15,7 @@ export interface OrderItemParams {
     productName: string;
     quantity: number;
     price: number;
-    totalAmount: number;
+    totalAmount?: number;
 }
 
 export class OrderItem {
@@ -46,7 +46,7 @@ export class Order {
     constructor(params: OrderParams) {
         this.id = params.id;
         this.customer = new Customer(params.customer);
-        this.status = params.status;
+        this.status = params?.status ?? OrderStatus.CREATED;
         this.createdAt = !params.createdAt && !this.id ? new Date() : params.createdAt;
         this.items = params.items.map(item => new OrderItem(item));
     }
