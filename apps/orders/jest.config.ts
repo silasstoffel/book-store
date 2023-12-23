@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'apps/checkout',
+  displayName: 'apps/orders',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
