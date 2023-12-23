@@ -15,7 +15,7 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
     const payload = createOrderSchema.parse(JSON.parse(event.body || '{}'))
     const createOrder = new CreateOrderUseCase(
         new OrderRepository(getOrderModel(), logger),
-        new EventProducer()
+        new EventProducer(logger)
     )
     const order = await createOrder.execute(payload as CreateOrderInput)
 
