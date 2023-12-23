@@ -71,7 +71,19 @@
           "codeCoverage": true
         }
       }
+    },
+
+    "deploy":{
+        "executor": "@nx/run:commands",
+        "options": {
+            "cwd": "apps/orders",
+            "color": true,
+            "command": "sls deploy --verbose"
+        }
     }
   },
-  "tags": []
+  "tags": [
+    "scope:orders",
+    "type:app"
+  ]
 }
