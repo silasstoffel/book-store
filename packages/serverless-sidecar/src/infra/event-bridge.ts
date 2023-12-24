@@ -1,18 +1,5 @@
 export class EventBridge {
     public readonly resourceName = 'BookStoreEventBus'
-    getResource() {
-        return {
-            [this.resourceName]: {
-                Type: 'AWS::Events::EventBus',
-                Properties: {
-                    Name: 'book-store',
-                    Tags: [
-                        { Key: 'service', Value: 'book-store' }
-                    ],
-                },
-            }
-        };
-    }
 
     getRoles() {
         return [

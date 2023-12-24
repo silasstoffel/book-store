@@ -38,10 +38,6 @@ export function serverlessSidecar(config: AWS): AWS {
         }
     }
 
-    config.resources.Resources = {
-       ...eventBridge.getResource(),
-    }
-
     sls.package = { individually: true }
     sls.plugins = ['serverless-esbuild', 'serverless-offline']
 
