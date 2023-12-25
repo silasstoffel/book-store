@@ -21,11 +21,13 @@
         "paths": {
             "@core/domain": ["apps/@core/index.ts"],
             "@package/exceptions": ["packages/exceptions/src/index.ts"],
+            "@packages/events": ["packages/events/src/index.ts"],
             "@packages/logger": ["packages/logger/src/index.ts"],
             "@packages/middlewares": ["packages/middlewares/src/index.ts"],
             "@packages/mongoose-utils": [
                 "packages/mongoose-utils/src/index.ts"
             ],
+            "@packages/sdk": ["packages/sdk/src/index.ts"],
             "@packages/serverless-response": [
                 "packages/serverless-response/src/index.ts"
             ],
@@ -34,8 +36,7 @@
             ],
             "@packages/serverless-utils": [
                 "packages/serverless-utils/src/index.ts"
-            ],
-            "@packages/events": ["packages/events/src/index.ts"]
+            ]
         }
     },
     "ts-node": {
