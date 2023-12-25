@@ -31,7 +31,6 @@ export class OrderItem {
         this.productName = params.productName;
         this.quantity = params.quantity;
         this.totalAmount = params?.totalAmount ?? this.price * this.quantity;
-        this.price = params.price
     }
 }
 
@@ -49,5 +48,6 @@ export class Order {
         this.status = params?.status ?? OrderStatus.CREATED;
         this.createdAt = !params.createdAt && !this.id ? new Date() : params.createdAt;
         this.items = params.items.map(item => new OrderItem(item));
+        this.totalAmount = params?.totalAmount ?? this.items.reduce((acc, item) => acc + item.totalAmount, 0);
     }
 }

@@ -3,10 +3,7 @@ import { OrderStatus } from '../../../domain/enum';
 
 export const orderItemSchema = z.object({
   productId: z.string().min(26),
-  productName: z.string().min(3),
-  quantity: z.number().positive(),
-  price: z.number().positive(),
-  totalAmount: z.number().optional(),
+  quantity: z.number().positive()
 });
 
 export const customerSchema = z.object({
