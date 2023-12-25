@@ -1,1 +1,1 @@
-export { SDK } from './Sdk'
+export { SDK } from './SDK'
