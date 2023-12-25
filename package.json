@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-eventbridge": "^3.474.0",
+    "@aws-sdk/client-lambda": "^3.478.0",
     "@nx/esbuild": "16.9.0",
     "@nx/eslint-plugin": "16.9.0",
     "@nx/jest": "16.9.0",
