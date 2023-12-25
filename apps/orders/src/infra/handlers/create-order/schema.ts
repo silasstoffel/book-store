@@ -18,8 +18,7 @@ export const createOrderSchema = z.object({
   status: z.nativeEnum(OrderStatus).optional().default(OrderStatus.CREATED),
   customer: customerSchema,
   totalAmount: z.number().optional(),
-  items: z.array(orderItemSchema),
-  createdAt: z.date().optional(),
+  items: z.array(orderItemSchema)
 });
 
 export type OrderItemSchema = z.infer<typeof orderItemSchema>;

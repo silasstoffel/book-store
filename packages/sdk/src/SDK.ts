@@ -6,7 +6,7 @@ export class SDK {
     public readonly products: Product;
 
     constructor(private readonly logger: ILogger) {
-        const invoke = new LambdaInvoke(logger);
+        const invoke = new LambdaInvoke(this.logger);
         this.products = new Product(invoke);
     }
 }

@@ -44,8 +44,7 @@ export class LambdaInvoke {
             }
 
             if (Payload) {
-                const data = JSON.parse(Payload.toString()) as T
-                return data;
+                return (JSON.parse(Buffer.from(Payload).toString())) as T
             }
 
         } catch (error) {
