@@ -19,6 +19,7 @@ export function serverlessSidecar(config: AWS): AWS {
     sls.provider.logRetentionInDays = 1
     sls.provider.environment.LOG_LEVEL = 'DEBUG'
     sls.provider.environment.MONGO_URI = '${ssm:/book-store/mongo/connection-string}'
+    sls.provider.environment.ENV = '${self:provider.stage}'
 
     if (!sls.provider.iam?.role["statements"]) {
         sls.provider = {
