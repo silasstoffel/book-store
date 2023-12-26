@@ -8,6 +8,7 @@ export interface OrderParams {
     totalAmount?: number;
     items: OrderItemParams[];
     createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface OrderItemParams {
@@ -40,13 +41,15 @@ export class Order {
     public readonly customer: Customer;
     public readonly items: OrderItem[];
     public readonly totalAmount: number;
-    public readonly createdAt: Date;
+    public readonly createdAt?: Date;
+    public readonly updatedAt?: Date;
 
     constructor(params: OrderParams) {
         this.id = params.id;
         this.customer = new Customer(params.customer);
         this.status = params?.status ?? OrderStatus.CREATED;
         this.createdAt = !params.createdAt && !this.id ? new Date() : params.createdAt;
+        this.updatedAt = !params.updatedAt && !this.updatedAt ? new Date() : params.updatedAt;
         this.items = params.items.map(item => new OrderItem(item));
         this.totalAmount = params?.totalAmount ?? this.items.reduce((acc, item) => acc + item.totalAmount, 0);
     }
