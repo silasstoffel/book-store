@@ -4,6 +4,7 @@ import { Order } from "../domain/order.entity";
 import { IProductRepository, Product } from "../domain/product.repository";
 import { CustomerAttributes } from "../domain/customer.entity";
 import { ILogger } from "@packages/logger";
+import { InactiveProductException, ProductNotFoundException, UnavailableQuantityRequestedException } from "../domain/exceptions";
 
 export interface CreateOrderInput {
     customer: CustomerAttributes;
@@ -41,23 +42,23 @@ export class CreateOrderUseCase {
             const product = await this.productRepository.findById(item.productId);
             this.logger.info('Got product information', { ...product });
             if (!product) {
-                const exc = new Error(`Product not found: ${item.productId}`)
+                const exc = new ProductNotFoundException(item.productId)
                 this.logger.error('Product not found', exc, { product: item.productId});
                 throw exc ;
             }
 
             if (product.quantity < item.quantity) {
-                const exc = new Error(`Product ${item.productId} has insufficient quantity`);
-                this.logger.error('Product has insufficient quantity', exc, {
-                    product: item.productId,
-                    quantity: product.quantity
+                const exc = new UnavailableQuantityRequestedException(product.quantity);
+                this.logger.warn('Product has insufficient quantity', {
+                    product,
+                    quantityRequested: item.quantity
                 });
                 throw exc ;
             }
 
             if (!product.active) {
-                const exc = new Error(`Product ${item.productId} is not active`);
-                this.logger.error('Product is not active.', exc, { ...product });
+                const exc = new InactiveProductException(item.productId);
+                this.logger.warn('Product is inactive.', { ...product });
                 throw exc ;
             }
 
