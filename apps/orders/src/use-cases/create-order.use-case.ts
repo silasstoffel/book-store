@@ -37,8 +37,9 @@ export class CreateOrderUseCase {
         const { items } =  input;
 
         for (const item of items) {
+            this.logger.info('Getting product information', { product: item.productId });
             const product = await this.productRepository.findById(item.productId);
-
+            this.logger.info('Got product information', { ...product });
             if (!product) {
                 const exc = new Error(`Product not found: ${item.productId}`)
                 this.logger.error('Product not found', exc, { product: item.productId});
@@ -56,7 +57,7 @@ export class CreateOrderUseCase {
 
             if (!product.active) {
                 const exc = new Error(`Product ${item.productId} is not active`);
-                this.logger.error('Product is not active', exc, { product: item.productId});
+                this.logger.error('Product is not active.', exc, { ...product });
                 throw exc ;
             }
 

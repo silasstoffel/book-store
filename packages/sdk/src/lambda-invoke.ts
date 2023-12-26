@@ -25,12 +25,10 @@ export class LambdaInvoke {
 
     async syncInvoke<T>(input: LambdaInvokeInput): Promise<T | null> {
         const params = this.buildInvokeParameters(input);
+        this.logger.info('Invoking lambda', { ...params });
 
         try {
-            const response = await this.client.send(
-                new InvokeCommand(params)
-            );
-
+            const response = await this.client.send(new InvokeCommand(params));
             const { StatusCode,  Payload } = response
 
             if (StatusCode && (StatusCode < 200 || StatusCode > 299)) {
@@ -44,11 +42,14 @@ export class LambdaInvoke {
             }
 
             if (Payload) {
-                return (JSON.parse(Buffer.from(Payload).toString())) as T
+                const data = JSON.parse(Buffer.from(Payload).toString()) as { body: string };
+                const body = JSON.parse(data.body)
+                this.logger.info('Lambda invoked', { ...params, statusCode: StatusCode, body });
+                return JSON.parse(data.body) as T;
             }
 
         } catch (error) {
-            this.logger.error('Error on lambda invoke', error as Error, { input });
+            this.logger.error('Error on lambda invoke', error as Error, { ...params });
             throw error;
         }
 
@@ -63,8 +64,7 @@ export class LambdaInvoke {
                 'Content-Type': 'application/json',
                 ...input.headers
             },
-            body: {},
-            invocationType: LambdaInvokeType.REQUEST_RESPONSE
+            body: {}
         }
 
         const { pathParameters, httpMethod, headers, path, body } = {
@@ -76,13 +76,14 @@ export class LambdaInvoke {
             httpMethod,
             headers,
             path,
-            body
+            body,
         }
     }
 
     private buildInvokeParameters(input: LambdaInvokeInput) {
         const payload = this.buildPayload(input);
-        const invocationType = input.invocationType === LambdaInvokeType.REQUEST_RESPONSE ? InvocationType.RequestResponse : InvocationType.Event;
+        const params = { invocationType: LambdaInvokeType.REQUEST_RESPONSE, ...input };
+        const invocationType = params.invocationType === LambdaInvokeType.REQUEST_RESPONSE ? InvocationType.RequestResponse : InvocationType.Event;
 
         return {
             FunctionName: input.function,

@@ -13,7 +13,7 @@ export function httpOk(data?: unknown | null): ResponseSchema {
 }
 
 export function httpCreated(data?: unknown | null): ResponseSchema {
-    return http(data, 200);
+    return http(data, 201);
 }
 
 export function httpNotFound(data?: unknown | null): ResponseSchema {
