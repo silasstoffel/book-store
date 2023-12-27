@@ -43,7 +43,7 @@ export class LambdaInvoke {
                     this.validateStatusCode(data.body, input)
                 }
 
-                this.logger.info('Lambda invoked', { ...params, statusCode: StatusCode, body });
+                this.logger.info('Lambda invoked', { ...params, statusCode: StatusCode, body, response: data });
                 return JSON.parse(data.body) as T;
             }
 
