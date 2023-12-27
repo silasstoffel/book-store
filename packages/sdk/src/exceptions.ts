@@ -3,7 +3,7 @@ import { BaseException } from '@package/exceptions';
 export class IntegrationErrorException extends BaseException {
     constructor(
         public readonly payload: string,
-        public readonly payloadFormat: 'json',
+        public readonly payloadFormat = 'json',
         httpStatusCode = 500
     ) {
         super(

@@ -32,7 +32,7 @@ export class LambdaInvoke {
             const response = await this.client.send(new InvokeCommand(params));
             const { StatusCode,  Payload } = response
 
-            this.validateStatusCode(String(Payload), input, StatusCode)
+            this.validateStatusCode(String(Payload), input)
 
             if (Payload) {
                 const data = JSON.parse(Buffer.from(Payload).toString()) as { body: string };
@@ -40,7 +40,7 @@ export class LambdaInvoke {
                 const { statusCode } = body;
 
                 if (statusCode) {
-                    this.validateStatusCode(String(data.body), input)
+                    this.validateStatusCode(data.body, input)
                 }
 
                 this.logger.info('Lambda invoked', { ...params, statusCode: StatusCode, body });
@@ -91,9 +91,9 @@ export class LambdaInvoke {
         };
     }
 
-    private validateStatusCode(payload: string, input:LambdaInvokeInput, statusCode: 500) {
+    private validateStatusCode(payload: string, input:LambdaInvokeInput, statusCode = 500) {
         if (statusCode && (statusCode < 200 || statusCode > 299)) {
-            const exc = new IntegrationErrorException(payload, statusCode)
+            const exc = new IntegrationErrorException(payload)
             this.logger.error('Error on lambda invoke', exc, {
                 statusCode: statusCode,
                 payload: payload,
