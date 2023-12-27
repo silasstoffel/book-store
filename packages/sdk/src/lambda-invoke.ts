@@ -38,12 +38,13 @@ export class LambdaInvoke {
                 const data = JSON.parse(Buffer.from(Payload).toString()) as { body: string };
                 const body = JSON.parse(data.body)
                 const { statusCode } = body;
+                this.logger.debug('Invoke response', { statusCode: StatusCode, response: data });
 
                 if (statusCode) {
                     this.validateStatusCode(data.body, input)
                 }
 
-                this.logger.info('Lambda invoked', { ...params, statusCode: StatusCode, body, response: data });
+                this.logger.info('Lambda invoked', { ...params, statusCode: StatusCode, body });
                 return JSON.parse(data.body) as T;
             }
 
