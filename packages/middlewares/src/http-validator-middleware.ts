@@ -30,10 +30,11 @@ export const HttpValidatorMiddleware = (schema: z.AnyZodObject) => {
                     message: err.message,
                 };
             });
-
+            const statusCode = 400;
             return {
-                statusCode: 400,
+                statusCode,
                 body: JSON.stringify({
+                    statusCode,
                     code: 'INVALID_BODY',
                     message: 'Validation failed.',
                     errors

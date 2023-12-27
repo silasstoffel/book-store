@@ -41,12 +41,13 @@ const getEventType = (event: Event): EventType => {
 const unknownError = (logger: ILogger, handler: Handler) => {
     const error = handler.error;
     logger.error('Unknown event type', error);
+    const statusCode = 500
     return {
-        statusCode: 500,
+        statusCode,
         headers: {
             'content-type': 'application/json'
         },
-        body: JSON.stringify({ code: 'UNKNOWN_ERROR', message: 'Unknown server error' })
+        body: JSON.stringify({ code: 'UNKNOWN_ERROR', message: 'Unknown server error', statusCode })
     };
 }
 
@@ -63,7 +64,7 @@ const httpError = (logger: ILogger, handler: Handler) => {
     return {
         statusCode,
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify({...body, statusCode })
     };
 }
 
