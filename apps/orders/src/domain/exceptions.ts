@@ -25,7 +25,7 @@ export class ProductNotFoundException extends EntityNotFoundException {
 export class UnavailableQuantityRequestedException extends BaseException {
     constructor(availableQuantity: number) {
         super(
-            `Requested Quantity is bigger than available quantity (${availableQuantity}).`,
+            `Requested quantity is bigger than available quantity (${availableQuantity}).`,
             ExceptionCode.UNAVAILABLE_QUANTITY_REQUESTED,
             { httpStatusCode: 400 }
         );

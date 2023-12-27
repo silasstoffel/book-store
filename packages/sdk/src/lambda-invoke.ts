@@ -1,5 +1,6 @@
 import { LambdaClient, InvokeCommand, InvocationType } from '@aws-sdk/client-lambda';
 import { ILogger } from '@packages/logger';
+import { IntegrationErrorException } from './exceptions';
 
 export enum LambdaInvokeType {
     REQUEST_RESPONSE = 'RequestResponse',
@@ -31,19 +32,17 @@ export class LambdaInvoke {
             const response = await this.client.send(new InvokeCommand(params));
             const { StatusCode,  Payload } = response
 
-            if (StatusCode && (StatusCode < 200 || StatusCode > 299)) {
-                const exc = new Error(`Status invoke is not ok. Status Code: ${StatusCode}`)
-                this.logger.error('Error on lambda invoke', exc, {
-                    statusCode: StatusCode,
-                    payload: Payload,
-                    function: input.function
-                })
-                throw exc;
-            }
+            this.validateStatusCode(String(Payload), input, StatusCode)
 
             if (Payload) {
                 const data = JSON.parse(Buffer.from(Payload).toString()) as { body: string };
                 const body = JSON.parse(data.body)
+                const { statusCode } = body;
+
+                if (statusCode) {
+                    this.validateStatusCode(String(data.body), input)
+                }
+
                 this.logger.info('Lambda invoked', { ...params, statusCode: StatusCode, body });
                 return JSON.parse(data.body) as T;
             }
@@ -90,5 +89,17 @@ export class LambdaInvoke {
             InvocationType: invocationType,
             Payload: JSON.stringify(payload)
         };
+    }
+
+    private validateStatusCode(payload: string, input:LambdaInvokeInput, statusCode: 500) {
+        if (statusCode && (statusCode < 200 || statusCode > 299)) {
+            const exc = new IntegrationErrorException(payload, statusCode)
+            this.logger.error('Error on lambda invoke', exc, {
+                statusCode: statusCode,
+                payload: payload,
+                input: input
+            })
+            throw exc;
+        }
     }
 }
